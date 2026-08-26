@@ -1,5 +1,7 @@
 # Astro Starter Kit: Basics
 
+[![CI](https://github.com/takkyuuplayer/homepage5.0/actions/workflows/ci.yml/badge.svg)](https://github.com/takkyuuplayer/homepage5.0/actions/workflows/ci.yml)
+
 ```sh
 npm create astro@latest -- --template basics
 ```
