@@ -23,7 +23,6 @@ jobs:
       - run: npm run check
       - run: npm run build
   deploy:
-    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
