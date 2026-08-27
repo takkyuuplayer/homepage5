@@ -8,6 +8,6 @@
 
 - [Astro](https://astro.build/)
 
-### Infrastracture
+### Infrastructure
 
 - [Astro · Cloudflare Workers docs](https://developers.cloudflare.com/workers/framework-guides/web-apps/astro/)
