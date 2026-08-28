@@ -1,2 +1,6 @@
 [tools]
 node = "lts"
+
+[tasks.build-logo]
+run = "npx texsvg '\\int \\left( {}^\\circ A^{\\circ}; \\right) dt' ./src/assets/logo.svg"
+outputs = ["./src/assets/logo.svg"]
