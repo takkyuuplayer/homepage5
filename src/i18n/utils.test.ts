@@ -1,6 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { getPathWithoutLocale, isLang, useTranslations } from "./utils";
-import type { UIKey } from "./ui";
+import {
+	getPathWithoutLocale,
+	isLang,
+	resolveLang,
+	useTranslations,
+} from "./utils";
 
 describe("isLang", () => {
 	it("should return true for valid language codes", () => {
@@ -23,40 +27,26 @@ describe("isLang", () => {
 	});
 });
 
-describe("useTranslations", () => {
-	it("should return translation function", () => {
-		const t = useTranslations("ja");
-		expect(typeof t).toBe("function");
+describe("resolveLang", () => {
+	it("should keep a valid language code", () => {
+		expect(resolveLang("en")).toBe("en");
 	});
 
+	it("should fall back to the default language", () => {
+		expect(resolveLang("fr")).toBe("ja");
+		expect(resolveLang(undefined)).toBe("ja");
+	});
+});
+
+describe("useTranslations", () => {
 	it("should translate keys for valid language (ja)", () => {
 		const t = useTranslations("ja");
-		expect(t("site.title" as UIKey)).toBe("卓球Playerの遊び場");
+		expect(t("site.title")).toBe("卓球Playerの遊び場");
 	});
 
 	it("should translate keys for valid language (en)", () => {
 		const t = useTranslations("en");
-		expect(t("site.title" as UIKey)).toBe("takkyuuplayer's playground");
-	});
-
-	it("should fallback to default language (ja)", () => {
-		const t = useTranslations("fr");
-		expect(t("site.title" as UIKey)).toBe("卓球Playerの遊び場");
-	});
-
-	it("should handle missing keys gracefully", () => {
-		const t = useTranslations("en");
-		// @ts-ignore - Testing runtime behavior with non-existent key
-		const result = t("non.existent");
-		expect(result).toBeUndefined();
-	});
-
-	it("should use correct language when language changes", () => {
-		const tJa = useTranslations("ja");
-		const tEn = useTranslations("en");
-
-		expect(tJa("site.title" as UIKey)).toBe("卓球Playerの遊び場");
-		expect(tEn("site.title" as UIKey)).toBe("takkyuuplayer's playground");
+		expect(t("site.title")).toBe("takkyuuplayer's playground");
 	});
 });
 

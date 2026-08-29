@@ -1,19 +1,21 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { defaultLang, localeNames, type Lang } from "../i18n/ui";
-import { getPathWithoutLocale, isLang, useTranslations } from "../i18n/utils";
+import { langs, localeNames, type Lang } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
 
-const lang = isLang(Astro.currentLocale) ? Astro.currentLocale : defaultLang;
+interface Props {
+	lang: Lang;
+	path: string;
+}
+
+const { lang, path } = Astro.props;
 const t = useTranslations(lang);
-
-const path = getPathWithoutLocale(Astro.url.pathname);
-const locales = Object.keys(localeNames) as Lang[];
 ---
 
 <nav aria-label={t("nav.language")}>
 	<ul>
 		{
-			locales.map((locale) => (
+			langs.map((locale) => (
 				<li lang={locale}>
 					{locale === lang ? (
 						<span aria-current="true">{localeNames[locale]}</span>

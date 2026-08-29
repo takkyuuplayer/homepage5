@@ -21,6 +21,7 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run check
+      - run: npm test
       - run: npm run build
   deploy:
     if: github.ref == 'refs/heads/main'

@@ -16,7 +16,9 @@ export const ui = {
 export type Lang = keyof typeof ui;
 export type UIKey = keyof (typeof ui)[typeof defaultLang];
 
-export const localeNames = {
+export const langs = Object.keys(ui) as Lang[];
+
+export const localeNames: Record<Lang, string> = {
 	ja: "日本語",
 	en: "English",
-} as const;
+};
