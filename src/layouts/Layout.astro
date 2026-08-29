@@ -20,7 +20,7 @@ const urls = Object.fromEntries(
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} class="scheme-only-dark">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -34,7 +34,7 @@ const urls = Object.fromEntries(
 		<link rel="alternate" hreflang="x-default" href={urls[defaultLang]} />
 		<title>{t("site.title")}</title>
 	</head>
-	<body>
+	<body class="bg-surface text-ink">
 		<LanguagePicker lang={lang} path={path} />
 		<slot />
 	</body>

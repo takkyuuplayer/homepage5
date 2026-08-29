@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@theme {
+	--color-*: initial;
+
+	--color-white: #fff;
+
+	--color-surface: oklch(20.8% 0.042 265.755); /* slate-900 */
+	--color-surface-raised: oklch(27.9% 0.041 260.031); /* slate-800 */
+
+	--color-ink: oklch(96.8% 0.007 247.896); /* slate-100 */
+	--color-ink-muted: oklch(70.4% 0.04 256.788); /* slate-400 */
+
+	--color-accent: oklch(74.6% 0.16 232.661); /* sky-400 */
+
+	--color-line: oklch(37.2% 0.044 257.287); /* slate-700 */
+}
