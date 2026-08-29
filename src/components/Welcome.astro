@@ -1,9 +1,13 @@
 ---
 import logo from "../assets/logo.svg";
+
+import { resolveLang, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(resolveLang(Astro.currentLocale));
 ---
 
 <div id="container">
 	<main>
-		<img src={logo.src} width="900" alt="Logo" />
+		<img src={logo.src} width="900" alt={t("logo.alt")} />
 	</main>
 </div>
