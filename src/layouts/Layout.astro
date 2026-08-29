@@ -1,8 +1,14 @@
 ---
-import { useTranslations } from "../i18n/utils";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+import LanguagePicker from "../components/LanguagePicker.astro";
+import { defaultLang, ui, type Lang } from "../i18n/ui";
+import { getPathWithoutLocale, isLang, useTranslations } from "../i18n/utils";
 
-const lang = Astro.currentLocale;
+const lang = isLang(Astro.currentLocale) ? Astro.currentLocale : defaultLang;
 const t = useTranslations(lang);
+
+const path = getPathWithoutLocale(Astro.url.pathname);
+const locales = Object.keys(ui) as Lang[];
 ---
 
 <!doctype html>
@@ -11,9 +17,25 @@ const t = useTranslations(lang);
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="canonical" href={getAbsoluteLocaleUrl(lang, path)} />
+		{
+			locales.map((locale) => (
+				<link
+					rel="alternate"
+					hreflang={locale}
+					href={getAbsoluteLocaleUrl(locale, path)}
+				/>
+			))
+		}
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={getAbsoluteLocaleUrl(defaultLang, path)}
+		/>
 		<title>{t("site.title")}</title>
 	</head>
 	<body>
+		<LanguagePicker />
 		<slot />
 	</body>
 </html>
