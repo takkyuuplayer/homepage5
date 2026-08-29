@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isLang, useTranslations } from "./utils";
+import { getPathWithoutLocale, isLang, useTranslations } from "./utils";
 import type { UIKey } from "./ui";
 
 describe("isLang", () => {
@@ -57,5 +57,38 @@ describe("useTranslations", () => {
 
 		expect(tJa("site.title" as UIKey)).toBe("卓球Playerの遊び場");
 		expect(tEn("site.title" as UIKey)).toBe("takkyuuplayer's playground");
+	});
+});
+
+describe("getPathWithoutLocale", () => {
+	it("should strip the locale prefix", () => {
+		expect(getPathWithoutLocale("/ja/blog/foo")).toBe("blog/foo");
+		expect(getPathWithoutLocale("/en/blog/foo")).toBe("blog/foo");
+	});
+
+	it("should return an empty string for a locale root", () => {
+		expect(getPathWithoutLocale("/ja")).toBe("");
+		expect(getPathWithoutLocale("/ja/")).toBe("");
+	});
+
+	it("should return an empty string for the site root", () => {
+		expect(getPathWithoutLocale("/")).toBe("");
+	});
+
+	it("should keep paths without a locale prefix", () => {
+		expect(getPathWithoutLocale("/blog/foo")).toBe("blog/foo");
+	});
+
+	it("should not strip a segment that merely starts with a locale code", () => {
+		expect(getPathWithoutLocale("/january")).toBe("january");
+		expect(getPathWithoutLocale("/english/foo")).toBe("english/foo");
+	});
+
+	it("should strip only the leading locale segment", () => {
+		expect(getPathWithoutLocale("/ja/en/foo")).toBe("en/foo");
+	});
+
+	it("should drop the trailing slash", () => {
+		expect(getPathWithoutLocale("/ja/blog/")).toBe("blog");
 	});
 });

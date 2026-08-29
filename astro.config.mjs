@@ -14,4 +14,5 @@ export default defineConfig({
 			redirectToDefaultLocale: true,
 		},
 	},
+	site: "https://homepage5.takkyuuplayer.workers.dev",
 });
