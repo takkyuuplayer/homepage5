@@ -13,7 +13,7 @@ const t = useTranslations(lang);
 ---
 
 <nav aria-label={t("nav.language")}>
-	<ul>
+	<ul class="flex gap-3 px-4 py-2">
 		{
 			langs.map((locale) => (
 				<li lang={locale}>
@@ -29,13 +29,3 @@ const t = useTranslations(lang);
 		}
 	</ul>
 </nav>
-
-<style>
-	ul {
-		display: flex;
-		gap: 0.75rem;
-		list-style: none;
-		margin: 0;
-		padding: 0.5rem 1rem;
-	}
-</style>
