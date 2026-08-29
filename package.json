@@ -14,7 +14,9 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"generate-types": "wrangler types",
-		"deploy": "npm run build && wrangler deploy"
+		"deploy": "npm run build && wrangler deploy",
+		"test": "vitest",
+		"test:ui": "vitest --ui"
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^14.2.5",
@@ -29,6 +31,7 @@
 		"prettier-plugin-astro": "^0.14.1",
 		"texsvg": "^4.0.1",
 		"typescript": "^6.0.3",
+		"vitest": "^4.1.11",
 		"wrangler": "^4.126.0"
 	}
 }
