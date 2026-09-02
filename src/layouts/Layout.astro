@@ -10,8 +10,18 @@ import {
 	useTranslations,
 } from "../i18n/utils";
 
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+
 const lang = resolveLang(Astro.currentLocale);
 const t = useTranslations(lang);
+
+const pageTitle = title ? `${title} | ${t("site.title")}` : t("site.title");
+const pageDescription = description ?? t("site.description");
 
 const path = getPathWithoutLocale(Astro.url.pathname);
 const urls = Object.fromEntries(
@@ -23,7 +33,7 @@ const urls = Object.fromEntries(
 <html lang={lang} class="scheme-only-dark">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="canonical" href={urls[lang]} />
 		{
@@ -32,7 +42,8 @@ const urls = Object.fromEntries(
 			))
 		}
 		<link rel="alternate" hreflang="x-default" href={urls[defaultLang]} />
-		<title>{t("site.title")}</title>
+		<meta name="description" content={pageDescription} />
+		<title>{pageTitle}</title>
 	</head>
 	<body class="bg-surface text-ink">
 		<a
@@ -42,12 +53,16 @@ const urls = Object.fromEntries(
 			{t("nav.skip")}
 		</a>
 		<header>
-			<nav></nav>
-			<LanguagePicker lang={lang} path={path} />
+			<div class="container-page">
+				<nav aria-label={t("nav.main")}></nav>
+				<LanguagePicker lang={lang} path={path} />
+			</div>
 		</header>
-		<main id="main" tabindex="-1">
+		<main id="main" tabindex="-1" class="container-page">
 			<slot />
 		</main>
-		<footer></footer>
+		<footer>
+			<div class="container-page"></div>
+		</footer>
 	</body>
 </html>

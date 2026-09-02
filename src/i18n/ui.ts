@@ -3,6 +3,8 @@ export const defaultLang = "ja";
 export const ui = {
 	ja: {
 		"site.title": "卓球Playerの遊び場",
+		"site.description":
+			"卓球Playerの個人サイト。自作アプリ、数学の問題、ブログをまとめています。",
 		"site.author": "卓球Player",
 		"logo.alt": "ロゴ",
 		"nav.language": "言語",
@@ -17,6 +19,8 @@ export const ui = {
 	},
 	en: {
 		"site.title": "takkyuuplayer's playground",
+		"site.description":
+			"Personal site of takkyuuplayer, collecting homemade apps, math quizzes and blog posts.",
 		"site.author": "takkyuuplayer",
 		"logo.alt": "Logo",
 		"nav.language": "Language",

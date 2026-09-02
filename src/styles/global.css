@@ -15,3 +15,9 @@
 
 	--color-line: oklch(37.2% 0.044 257.287); /* slate-700 */
 }
+
+@utility container-page {
+	margin-inline: auto;
+	max-width: var(--container-5xl);
+	padding-inline: --spacing(4);
+}
