@@ -35,7 +35,19 @@ const urls = Object.fromEntries(
 		<title>{t("site.title")}</title>
 	</head>
 	<body class="bg-surface text-ink">
-		<LanguagePicker lang={lang} path={path} />
-		<slot />
+		<a
+			href="#main"
+			class="focus:bg-surface sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2"
+		>
+			{t("nav.skip")}
+		</a>
+		<header>
+			<nav></nav>
+			<LanguagePicker lang={lang} path={path} />
+		</header>
+		<main id="main" tabindex="-1">
+			<slot />
+		</main>
+		<footer></footer>
 	</body>
 </html>
