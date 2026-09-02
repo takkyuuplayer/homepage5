@@ -1,5 +1,5 @@
 ---
-import logo from "../assets/logo.svg";
+import Logo from "../assets/logo.svg";
 
 import { resolveLang, useTranslations } from "../i18n/utils";
 
@@ -7,5 +7,9 @@ const t = useTranslations(resolveLang(Astro.currentLocale));
 ---
 
 <main>
-	<img src={logo.src} width="900" alt={t("logo.alt")} />
+	<Logo
+		class="text-ink h-auto w-full max-w-4xl"
+		role="img"
+		aria-label={t("logo.alt")}
+	/>
 </main>
