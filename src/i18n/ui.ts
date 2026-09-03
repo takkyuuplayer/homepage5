@@ -3,13 +3,37 @@ export const defaultLang = "ja";
 export const ui = {
 	ja: {
 		"site.title": "卓球Playerの遊び場",
+		"site.description":
+			"卓球Playerの個人サイト。自作アプリ、数学の問題、ブログをまとめています。",
+		"site.author": "卓球Player",
 		"logo.alt": "ロゴ",
 		"nav.language": "言語",
+		"nav.home": "ホーム",
+		"nav.main": "メインメニュー",
+		"nav.menu": "メニュー",
+		"nav.skip": "本文へスキップ",
+		"nav.apps": "アプリ",
+		"nav.math": "数学",
+		"nav.blog": "ブログ",
+		"nav.about": "ご挨拶",
+		"footer.social": "ソーシャルリンク",
 	},
 	en: {
 		"site.title": "takkyuuplayer's playground",
+		"site.description":
+			"Personal site of takkyuuplayer, collecting homemade apps, math quizzes and blog posts.",
+		"site.author": "takkyuuplayer",
 		"logo.alt": "Logo",
 		"nav.language": "Language",
+		"nav.home": "Home",
+		"nav.main": "Main menu",
+		"nav.menu": "Menu",
+		"nav.skip": "Skip to content",
+		"nav.apps": "Apps",
+		"nav.math": "Math",
+		"nav.blog": "Blog",
+		"nav.about": "About",
+		"footer.social": "Social links",
 	},
 } as const;
 

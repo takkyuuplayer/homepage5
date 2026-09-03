@@ -2,7 +2,7 @@
 import "../styles/global.css";
 
 import { getAbsoluteLocaleUrl } from "astro:i18n";
-import LanguagePicker from "../components/LanguagePicker.astro";
+import Header from "../components/Header.astro";
 import { defaultLang, langs, type Lang } from "../i18n/ui";
 import {
 	getPathWithoutLocale,
@@ -10,8 +10,18 @@ import {
 	useTranslations,
 } from "../i18n/utils";
 
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+
 const lang = resolveLang(Astro.currentLocale);
 const t = useTranslations(lang);
+
+const pageTitle = title ? `${title} | ${t("site.title")}` : t("site.title");
+const pageDescription = description ?? t("site.description");
 
 const path = getPathWithoutLocale(Astro.url.pathname);
 const urls = Object.fromEntries(
@@ -23,7 +33,7 @@ const urls = Object.fromEntries(
 <html lang={lang} class="scheme-only-dark">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="canonical" href={urls[lang]} />
 		{
@@ -32,10 +42,22 @@ const urls = Object.fromEntries(
 			))
 		}
 		<link rel="alternate" hreflang="x-default" href={urls[defaultLang]} />
-		<title>{t("site.title")}</title>
+		<meta name="description" content={pageDescription} />
+		<title>{pageTitle}</title>
 	</head>
 	<body class="bg-surface text-ink">
-		<LanguagePicker lang={lang} path={path} />
-		<slot />
+		<a
+			href="#main"
+			class="focus:bg-surface sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2"
+		>
+			{t("nav.skip")}
+		</a>
+		<Header />
+		<main id="main" tabindex="-1" class="container-page">
+			<slot />
+		</main>
+		<footer>
+			<div class="container-page"></div>
+		</footer>
 	</body>
 </html>

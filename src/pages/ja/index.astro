@@ -1,8 +1,10 @@
 ---
-import Welcome from "../../components/Welcome.astro";
 import Layout from "../../layouts/Layout.astro";
+import { resolveLang, useTranslations } from "../../i18n/utils";
+
+const t = useTranslations(resolveLang(Astro.currentLocale));
 ---
 
 <Layout>
-	<Welcome />
+	<h1>{t("site.title")}</h1>
 </Layout>
