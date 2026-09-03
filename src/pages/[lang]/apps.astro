@@ -2,9 +2,11 @@
 import Layout from "../../layouts/Layout.astro";
 import { resolveLang, useTranslations } from "../../i18n/utils";
 
+export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
+
 const t = useTranslations(resolveLang(Astro.currentLocale));
 ---
 
-<Layout>
-	<h1>{t("site.title")}</h1>
+<Layout title={t("nav.apps")}>
+	<h1>{t("nav.apps")}</h1>
 </Layout>

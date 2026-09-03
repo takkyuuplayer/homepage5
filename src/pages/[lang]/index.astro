@@ -2,6 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import { resolveLang, useTranslations } from "../../i18n/utils";
 
+export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
+
 const t = useTranslations(resolveLang(Astro.currentLocale));
 ---
 
