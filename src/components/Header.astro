@@ -58,7 +58,7 @@ const items: { key: UIKey; path: string }[] = [
 				<ul
 					id="site-nav"
 					popover
-					class="border-line bg-surface-raised text-ink top-16 right-0 bottom-auto left-0 m-0 w-auto gap-4 border-b p-4 open:flex open:flex-col sm:static sm:flex sm:flex-row sm:gap-6 sm:border-0 sm:bg-transparent sm:p-0"
+					class="border-line bg-surface-raised text-ink top-16 right-0 bottom-auto left-0 m-0 w-auto gap-1 border-b p-4 open:flex open:flex-col sm:static sm:flex sm:flex-row sm:gap-6 sm:border-0 sm:bg-transparent sm:p-0"
 				>
 					{
 						items.map((item) => (
@@ -67,7 +67,7 @@ const items: { key: UIKey; path: string }[] = [
 									href={getRelativeLocaleUrl(lang, item.path)}
 									aria-current={item.path === path ? "page" : undefined}
 									class:list={[
-										"focus-visible:outline-accent hover:text-accent rounded-xs focus-visible:outline-2 focus-visible:outline-offset-4",
+										"focus-visible:outline-accent hover:text-accent block rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2",
 										item.path === path ? "text-ink" : "text-ink-muted",
 									]}
 								>
