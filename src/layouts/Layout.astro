@@ -1,9 +1,8 @@
 ---
 import "../styles/global.css";
 
-import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from "astro:i18n";
-import Logo from "../assets/logo.svg";
-import LanguagePicker from "../components/LanguagePicker.astro";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+import Header from "../components/Header.astro";
 import { defaultLang, langs, type Lang } from "../i18n/ui";
 import {
 	getPathWithoutLocale,
@@ -53,15 +52,7 @@ const urls = Object.fromEntries(
 		>
 			{t("nav.skip")}
 		</a>
-		<header>
-			<div class="container-page">
-				<a href={getRelativeLocaleUrl(lang, "")} aria-label={t("nav.home")}>
-					<Logo class="text-ink block h-8 w-auto" aria-hidden="true" />
-				</a>
-				<nav aria-label={t("nav.main")}></nav>
-				<LanguagePicker lang={lang} path={path} />
-			</div>
-		</header>
+		<Header />
 		<main id="main" tabindex="-1" class="container-page">
 			<slot />
 		</main>
