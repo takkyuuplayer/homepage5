@@ -1,11 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { langs } from "../../i18n/ui";
 import { resolveLang, useTranslations } from "../../i18n/utils";
 
-export function getStaticPaths() {
-	return langs.map((lang) => ({ params: { lang } }));
-}
+export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 
 const t = useTranslations(resolveLang(Astro.currentLocale));
 ---

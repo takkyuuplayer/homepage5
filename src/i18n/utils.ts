@@ -1,4 +1,4 @@
-import { ui, defaultLang, type Lang, type UIKey } from "./ui";
+import { ui, defaultLang, langs, type Lang, type UIKey } from "./ui";
 
 export function isLang(value: string | undefined): value is Lang {
 	return value !== undefined && value in ui;
@@ -18,4 +18,8 @@ export function getPathWithoutLocale(pathname: string): string {
 		segments.shift();
 	}
 	return segments.join("/");
+}
+
+export function getLangStaticPaths() {
+	return langs.map((lang) => ({ params: { lang } }));
 }
