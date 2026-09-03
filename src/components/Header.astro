@@ -83,3 +83,23 @@ const items: { key: UIKey; path: string }[] = [
 		</div>
 	</div>
 </header>
+
+<script>
+	// popover は top layer にいる間、著者スタイルでは position を静的に戻せない
+	// （CSS Position 4: specified position が absolute/fixed 以外なら absolute に computes する）。
+	// sm: でハンバーガーが隠れると閉じる手段も消えるため、隠れた時点で閉じる。
+	const nav = document.getElementById("site-nav");
+	const button = document.querySelector('[popovertarget="site-nav"]');
+
+	const closeIfButtonHidden = () => {
+		if (!button?.checkVisibility()) nav?.hidePopover();
+	};
+
+	nav?.addEventListener("toggle", (event) => {
+		if (event.newState === "open") {
+			addEventListener("resize", closeIfButtonHidden);
+		} else {
+			removeEventListener("resize", closeIfButtonHidden);
+		}
+	});
+</script>
