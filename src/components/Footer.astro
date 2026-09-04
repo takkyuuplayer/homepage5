@@ -1,0 +1,15 @@
+---
+import { resolveLang, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(resolveLang(Astro.currentLocale));
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-line mt-16 border-t">
+	<div class="container-page flex items-center justify-end py-6">
+		<p class="text-ink-muted text-sm">
+			&copy; {t("site.author")} 2004 - {currentYear}
+		</p>
+	</div>
+</footer>

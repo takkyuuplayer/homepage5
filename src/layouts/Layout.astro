@@ -2,6 +2,7 @@
 import "../styles/global.css";
 
 import { getAbsoluteLocaleUrl } from "astro:i18n";
+import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { defaultLang, langs, type Lang } from "../i18n/ui";
 import {
@@ -56,8 +57,6 @@ const urls = Object.fromEntries(
 		<main id="main" tabindex="-1" class="container-page">
 			<slot />
 		</main>
-		<footer>
-			<div class="container-page"></div>
-		</footer>
+		<Footer />
 	</body>
 </html>
