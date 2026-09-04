@@ -1,13 +1,62 @@
 ---
+import { Image } from "astro:assets";
+import Github from "../assets/github.svg";
+import X from "../assets/x.svg";
+import linkedin from "../assets/linkedin.png";
 import { resolveLang, useTranslations } from "../i18n/utils";
 
 const t = useTranslations(resolveLang(Astro.currentLocale));
 
 const currentYear = new Date().getFullYear();
+
+// ロゴは 3 社とも色の変更を禁じているため hover で色を変えない。p-2 は X が
+// 求める四辺の余白と、WCAG 2.2 SC 2.5.8 の 24px 角を兼ねている。
+const iconLink =
+	"focus-visible:outline-accent block rounded-xs p-2 focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
 <footer class="border-line mt-16 border-t">
-	<div class="container-page flex items-center justify-end py-6">
+	<div class="container-page flex items-center justify-between py-6">
+		<nav aria-label={t("footer.social")}>
+			<ul class="flex items-center gap-1">
+				<li>
+					<a
+						href="https://github.com/takkyuuplayer"
+						rel="noopener"
+						aria-label="GitHub"
+						class={iconLink}
+					>
+						<Github class="block h-5 w-auto" aria-hidden="true" />
+					</a>
+				</li>
+				<li>
+					<a
+						href="https://www.linkedin.com/in/takkyuuplayer/"
+						rel="noopener"
+						aria-label="LinkedIn"
+						class={iconLink}
+					>
+						<Image
+							src={linkedin}
+							alt=""
+							height={20}
+							densities={[1, 2]}
+							class="block h-5 w-auto"
+						/>
+					</a>
+				</li>
+				<li>
+					<a
+						href="https://x.com/takkyuuplayer"
+						rel="noopener"
+						aria-label="X"
+						class={iconLink}
+					>
+						<X class="block h-5 w-auto" aria-hidden="true" />
+					</a>
+				</li>
+			</ul>
+		</nav>
 		<p class="text-ink-muted text-sm">
 			&copy; {t("site.author")} 2004 - {currentYear}
 		</p>
