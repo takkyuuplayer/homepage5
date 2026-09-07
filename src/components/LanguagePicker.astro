@@ -1,5 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
+import Check from "../assets/check.svg";
+import Globe from "../assets/language.svg";
 import { langs, localeNames, type Lang } from "../i18n/ui";
 import { useTranslations } from "../i18n/utils";
 
@@ -10,22 +12,64 @@ interface Props {
 
 const { lang, path } = Astro.props;
 const t = useTranslations(lang);
+
+const item = "flex items-center gap-2 px-3 py-2";
 ---
 
 <nav aria-label={t("nav.language")}>
-	<ul class="flex gap-3">
-		{
-			langs.map((locale) => (
-				<li lang={locale}>
-					{locale === lang ? (
-						<span aria-current="true">{localeNames[locale]}</span>
+	<details class="relative">
+		<summary
+			class="focus-visible:outline-accent cursor-pointer rounded-xs py-1 focus-visible:outline-2 focus-visible:outline-offset-2"
+		>
+			<span class="inline-flex items-center gap-2 align-middle">
+				<Globe
+					class="block h-5 w-auto"
+					fill="currentColor"
+					aria-hidden="true"
+				/>
+				<span lang={lang}>{localeNames[lang]}</span>
+				<span class="sr-only">{t("nav.languageSwitch")}</span>
+			</span>
+		</summary>
+
+		<ul
+			class="border-line bg-surface-raised absolute top-full right-0 z-10 mt-1 w-max rounded-xs border py-1"
+		>
+			{
+				langs.map((locale) =>
+					locale === lang ? (
+						<li>
+							<span
+								aria-current="page"
+								lang={locale}
+								class:list={["text-ink", item]}
+							>
+								<Check
+									class="block h-4 w-auto"
+									fill="currentColor"
+									aria-hidden="true"
+								/>
+								{localeNames[locale]}
+							</span>
+						</li>
 					) : (
-						<a href={getRelativeLocaleUrl(locale, path)} hreflang={locale}>
-							{localeNames[locale]}
-						</a>
-					)}
-				</li>
-			))
-		}
-	</ul>
+						<li>
+							<a
+								href={getRelativeLocaleUrl(locale, path)}
+								hreflang={locale}
+								lang={locale}
+								class:list={[
+									"text-ink-muted hover:text-accent focus-visible:outline-accent focus-visible:outline-2 focus-visible:outline-offset-2",
+									item,
+								]}
+							>
+								<span class="block h-4 w-4" aria-hidden="true" />
+								{localeNames[locale]}
+							</a>
+						</li>
+					),
+				)
+			}
+		</ul>
+	</details>
 </nav>
