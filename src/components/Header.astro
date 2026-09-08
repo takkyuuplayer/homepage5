@@ -91,7 +91,7 @@ const items: { key: UIKey; path: string }[] = [
 	// hidePopover() は閉じている popover には何もしないので、開閉状態は見ていない。
 	const nav = document.getElementById("site-nav");
 	const button = document.querySelector('[popovertarget="site-nav"]');
-	const language = document.getElementById("language-menu");
+	const language = document.querySelector<HTMLDetailsElement>("#language-menu");
 
 	addEventListener("resize", () => {
 		if (!button?.checkVisibility()) nav?.hidePopover();
