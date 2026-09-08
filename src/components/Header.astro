@@ -91,8 +91,20 @@ const items: { key: UIKey; path: string }[] = [
 	// hidePopover() は閉じている popover には何もしないので、開閉状態は見ていない。
 	const nav = document.getElementById("site-nav");
 	const button = document.querySelector('[popovertarget="site-nav"]');
+	const language = document.getElementById("language-menu");
 
 	addEventListener("resize", () => {
 		if (!button?.checkVisibility()) nav?.hidePopover();
+	});
+
+	// ナビは top layer に入るため、重なると言語切替のパネルを完全に覆う。
+	// popover 同士なら片方を開くと他方が閉じるが、言語切替は details なので
+	// 相互排他を自前で持つ。
+	nav?.addEventListener("toggle", (event) => {
+		if (event.newState === "open" && language) language.open = false;
+	});
+
+	language?.addEventListener("toggle", () => {
+		if (language.open) nav?.hidePopover();
 	});
 </script>
