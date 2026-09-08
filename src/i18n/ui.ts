@@ -46,7 +46,7 @@ export const ui = {
 		"top.latestPosts": "Latest posts",
 		"top.allPosts": "See all posts",
 		"top.postsUnavailable": "Could not load the posts",
-		"top.history": "History",
+		"top.history": "History (Japanese only)",
 		"top.olderHistory": "Show older records",
 		"top.timeline": "Posts on X",
 		"top.timelineFallback": "See @takkyuuplayer on X",

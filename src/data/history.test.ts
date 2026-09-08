@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { history, historyEntries } from "./history";
-import { langs } from "../i18n/ui";
 
 describe("history", () => {
 	it("should keep every record migrated from homepage4.0", () => {
@@ -14,26 +13,16 @@ describe("history", () => {
 		}
 	});
 
-	it("should have a title in every language", () => {
+	it("should have a title for every record", () => {
 		for (const item of history) {
-			for (const lang of langs) {
-				expect(item.title[lang]).toBeTruthy();
-			}
-		}
-	});
-
-	it("should not leave Japanese in the English titles", () => {
-		const japanese = /[　-〿぀-ヿ一-龯＀-￯]/;
-
-		for (const item of history) {
-			expect(item.title.en).not.toMatch(japanese);
+			expect(item.title).toBeTruthy();
 		}
 	});
 });
 
 describe("historyEntries", () => {
 	it("should order records from newest to oldest", () => {
-		const entries = historyEntries("ja");
+		const entries = historyEntries();
 
 		expect(entries).toHaveLength(history.length);
 		expect(entries[0].publishedAt).toEqual(new Date("2018-11-01"));
@@ -41,20 +30,13 @@ describe("historyEntries", () => {
 	});
 
 	it("should sort records that the migrated data listed out of order", () => {
-		const entries = historyEntries("ja");
-		const dates = entries.map((entry) => entry.publishedAt.getTime());
+		const dates = historyEntries().map((entry) => entry.publishedAt.getTime());
 
 		expect(dates).toEqual([...dates].sort((a, b) => b - a));
 	});
 
-	it("should pick the title of the requested language", () => {
-		expect(historyEntries("ja")[0].title).toBe("ホームページをリニューアル");
-		expect(historyEntries("en")[0].title).toBe("Homepage renewal");
-	});
-
 	it("should keep the link of a record that has one", () => {
-		const entries = historyEntries("en");
-		const linked = entries.filter((entry) => entry.url);
+		const linked = historyEntries().filter((entry) => entry.url);
 
 		expect(linked.map((entry) => entry.url)).toEqual([
 			"http://takkyuuplayer.github.io/",

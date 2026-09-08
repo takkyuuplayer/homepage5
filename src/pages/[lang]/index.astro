@@ -17,7 +17,8 @@ const t = useTranslations(lang);
 const posts = (await fetchEntries()).slice(0, 5);
 
 // 全 76 件を常に並べるとフッターが遠くなるため、続きは details に入れる。
-const history = historyEntries(lang);
+// 履歴は日本語のみなので、英語ページでも同じ内容を出す（見出しに注記あり）。
+const history = historyEntries();
 const recentHistory = history.slice(0, 10);
 const olderHistory = history.slice(10);
 
