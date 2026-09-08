@@ -1,4 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
+import { sortByPublishedAt } from "./entries";
 
 export type Entry = {
 	title: string;
@@ -114,12 +115,6 @@ export function parseFeed(xml: string): Entry[] {
 		return toArray(channel.item).flatMap((i) => fromRssItem(i) ?? []);
 
 	return [];
-}
-
-export function sortByPublishedAt(entries: readonly Entry[]): Entry[] {
-	return [...entries].sort(
-		(a, b) => b.publishedAt.getTime() - a.publishedAt.getTime(),
-	);
 }
 
 export async function fetchEntries(

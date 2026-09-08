@@ -1,17 +1,8 @@
-import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchEntries, parseFeed, sortByPublishedAt } from "./feed";
-
-function fixture(name: string) {
-	return readFileSync(
-		new URL(`./__fixtures__/${name}`, import.meta.url),
-		"utf8",
-	);
-}
-
-const blogspot = fixture("atom-blogspot.xml");
-const hatena = fixture("atom-hatena.xml");
-const medium = fixture("rss-medium.xml");
+import blogspot from "./__fixtures__/atom-blogspot.xml?raw";
+import hatena from "./__fixtures__/atom-hatena.xml?raw";
+import medium from "./__fixtures__/rss-medium.xml?raw";
+import { fetchEntries, parseFeed } from "./feed";
 
 describe("parseFeed", () => {
 	it("should read an Atom entry whose title carries a type attribute", () => {
@@ -96,29 +87,6 @@ describe("parseFeed", () => {
 
 	it("should return no entries for an unknown root element", () => {
 		expect(parseFeed("<html><body>not a feed</body></html>")).toEqual([]);
-	});
-});
-
-describe("sortByPublishedAt", () => {
-	it("should order entries from newest to oldest without mutating the input", () => {
-		const entries = [
-			{
-				title: "old",
-				url: "https://example.com/old",
-				publishedAt: new Date("2004-04-17"),
-			},
-			{
-				title: "new",
-				url: "https://example.com/new",
-				publishedAt: new Date("2019-01-16"),
-			},
-		];
-
-		expect(sortByPublishedAt(entries).map((entry) => entry.title)).toEqual([
-			"new",
-			"old",
-		]);
-		expect(entries.map((entry) => entry.title)).toEqual(["old", "new"]);
 	});
 });
 
