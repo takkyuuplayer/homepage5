@@ -79,7 +79,7 @@ const items: { key: UIKey; path: string }[] = [
 				</ul>
 			</nav>
 
-			<LanguagePicker lang={lang} path={path} />
+			<LanguagePicker id="language-menu" lang={lang} path={path} />
 		</div>
 	</div>
 </header>
@@ -104,7 +104,7 @@ const items: { key: UIKey; path: string }[] = [
 		if (event.newState === "open" && language) language.open = false;
 	});
 
-	language?.addEventListener("toggle", () => {
-		if (language.open) nav?.hidePopover();
+	language?.addEventListener("toggle", (event) => {
+		if (event.newState === "open") nav?.hidePopover();
 	});
 </script>
