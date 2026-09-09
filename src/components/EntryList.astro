@@ -23,11 +23,7 @@ const lang = resolveLang(Astro.currentLocale);
 					{formatDate(item.publishedAt, lang)}
 				</time>
 				{item.url ? (
-					<a
-						href={item.url}
-						rel="noopener"
-						class="focus-visible:outline-accent decoration-ink-muted hover:decoration-accent hover:text-accent rounded-xs underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2"
-					>
+					<a href={item.url} rel="noopener" class="link">
 						{item.title}
 					</a>
 				) : (

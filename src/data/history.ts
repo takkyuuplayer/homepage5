@@ -298,10 +298,9 @@ export const history: readonly HistoryItem[] = [
 	},
 ];
 
-export function historyEntries(): ListEntry[] {
-	return history.map((item) => ({
-		title: item.title,
-		url: item.url,
-		publishedAt: new Date(item.date),
-	}));
-}
+// 入力が不変なので、ページごとに作り直さず 1 回だけ変換する。
+export const historyEntries: readonly ListEntry[] = history.map((item) => ({
+	title: item.title,
+	url: item.url,
+	publishedAt: new Date(item.date),
+}));

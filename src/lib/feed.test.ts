@@ -57,30 +57,25 @@ describe("parseFeed", () => {
 		);
 	});
 
-	it("should drop an entry without a readable date", () => {
-		const xml = `<feed xmlns="http://www.w3.org/2005/Atom"><entry>
-			<title>undated</title>
-			<link href="https://example.com/a"/>
-		</entry></feed>`;
-
-		expect(parseFeed(xml)).toEqual([]);
-	});
-
-	it("should drop an entry that has no alternate link", () => {
-		const xml = `<feed xmlns="http://www.w3.org/2005/Atom"><entry>
-			<title>replies only</title>
+	it.each([
+		[
+			"no readable date",
+			`<title>undated</title>
+			<link href="https://example.com/a"/>`,
+		],
+		[
+			"no alternate link",
+			`<title>replies only</title>
 			<link rel="replies" href="https://example.com/comments"/>
-			<published>2016-12-14T22:54:35+09:00</published>
-		</entry></feed>`;
-
-		expect(parseFeed(xml)).toEqual([]);
-	});
-
-	it("should drop an entry without a title", () => {
-		const xml = `<feed xmlns="http://www.w3.org/2005/Atom"><entry>
-			<link href="https://example.com/a"/>
-			<published>2016-12-14T22:54:35+09:00</published>
-		</entry></feed>`;
+			<published>2016-12-14T22:54:35+09:00</published>`,
+		],
+		[
+			"no title",
+			`<link href="https://example.com/a"/>
+			<published>2016-12-14T22:54:35+09:00</published>`,
+		],
+	])("should drop an entry with %s", (_, entry) => {
+		const xml = `<feed xmlns="http://www.w3.org/2005/Atom"><entry>${entry}</entry></feed>`;
 
 		expect(parseFeed(xml)).toEqual([]);
 	});
@@ -128,32 +123,19 @@ describe("fetchEntries", () => {
 		]);
 	});
 
-	it("should keep the surviving feeds when one rejects", async () => {
+	it.each([
+		["a request that rejects", new Error("ECONNREFUSED")],
+		["an error status", 429],
+	])("should keep the surviving feeds despite %s", async (_, failure) => {
 		const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 		stubFetch({
 			"https://hatena.example/feed": hatena,
-			"https://down.example/feed": new Error("ECONNREFUSED"),
+			"https://broken.example/feed": failure,
 		});
 
 		const entries = await fetchEntries([
 			"https://hatena.example/feed",
-			"https://down.example/feed",
-		]);
-
-		expect(entries).toHaveLength(1);
-		expect(warn).toHaveBeenCalledOnce();
-	});
-
-	it("should skip a feed that answers with an error status", async () => {
-		const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-		stubFetch({
-			"https://hatena.example/feed": hatena,
-			"https://throttled.example/feed": 429,
-		});
-
-		const entries = await fetchEntries([
-			"https://hatena.example/feed",
-			"https://throttled.example/feed",
+			"https://broken.example/feed",
 		]);
 
 		expect(entries).toHaveLength(1);

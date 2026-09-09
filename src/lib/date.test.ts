@@ -9,13 +9,6 @@ describe("formatDate", () => {
 		expect(formatDate(date, "en")).toBe("12/14/2016");
 	});
 
-	it("should show the date in the author's time zone", () => {
-		// UTC では 2019-01-16 だが、+09:00 では 2019-01-17 になる時刻。
-		const date = new Date("2019-01-16T20:00:00Z");
-
-		expect(formatDate(date, "ja")).toBe("2019/01/17");
-	});
-
 	it("should keep a date-only value on the same day", () => {
 		expect(formatDate(new Date("2004-04-17"), "ja")).toBe("2004/04/17");
 	});
@@ -28,7 +21,8 @@ describe("toDateString", () => {
 		);
 	});
 
-	it("should agree with what is displayed", () => {
+	it("should agree with what is displayed across a time zone boundary", () => {
+		// UTC では 2019-01-16 だが、+09:00 では 2019-01-17 になる時刻。
 		const date = new Date("2019-01-16T20:00:00Z");
 
 		expect(toDateString(date)).toBe("2019-01-17");

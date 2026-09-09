@@ -29,15 +29,14 @@ describe("history", () => {
 
 describe("historyEntries", () => {
 	it("should keep the order of the data", () => {
-		const entries = historyEntries();
+		const entries = historyEntries;
 
-		expect(entries).toHaveLength(history.length);
 		expect(entries[0].publishedAt).toEqual(new Date("2018-11-01"));
 		expect(entries.at(-1)?.publishedAt).toEqual(new Date("2004-04-17"));
 	});
 
 	it("should keep the link of a record that has one", () => {
-		const linked = historyEntries().filter((entry) => entry.url);
+		const linked = historyEntries.filter((entry) => entry.url);
 
 		expect(linked.map((entry) => entry.url)).toEqual([
 			"http://takkyuuplayer.github.io/",

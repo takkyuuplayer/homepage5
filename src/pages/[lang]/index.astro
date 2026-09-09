@@ -17,9 +17,8 @@ const posts = (await fetchEntries()).slice(0, 5);
 
 // 全 76 件を常に並べるとフッターが遠くなるため、続きは details に入れる。
 // 履歴は日本語のみなので、英語ページでも同じ内容を出す（見出しに注記あり）。
-const history = historyEntries();
-const recentHistory = history.slice(0, 10);
-const olderHistory = history.slice(10);
+const recentHistory = historyEntries.slice(0, 10);
+const olderHistory = historyEntries.slice(10);
 
 const heading = "border-line mb-4 border-b pb-2 text-lg font-bold";
 ---
@@ -41,7 +40,7 @@ const heading = "border-line mb-4 border-b pb-2 text-lg font-bold";
 			}
 			<a
 				href={getRelativeLocaleUrl(lang, "blog")}
-				class="focus-visible:outline-accent decoration-ink-muted hover:decoration-accent hover:text-accent mt-4 inline-block rounded-xs underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2"
+				class="link mt-4 inline-block"
 			>
 				{t("top.allPosts")}
 			</a>
