@@ -1,0 +1,13 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
+  <title>takkyuuplayer&#39;s blog</title>
+  <link href="https://takkyuuplayer.hatenablog.com/"/>
+  <updated>2016-12-14T22:54:35+09:00</updated>
+  <entry>
+    <title>足し算ではなく掛け算で実装する</title>
+    <link href="https://takkyuuplayer.hatenablog.com/entry/2016/12/14/225435"/>
+    <link rel="enclosure" href="https://ogimage.blog.st-hatena.com/12704346814673866137/10328749687198892851/1481723675" type="image/png" length="0"/>
+    <id>hatenablog://entry/10328749687198892851</id>
+    <published>2016-12-14T22:54:35+09:00</published>
+    <updated>2016-12-14T22:54:35+09:00</updated>
+  </entry>
+</feed>

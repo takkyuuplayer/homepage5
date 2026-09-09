@@ -18,6 +18,11 @@ export const ui = {
 		"nav.blog": "ブログ",
 		"nav.about": "ご挨拶",
 		"footer.social": "ソーシャルリンク",
+		"top.latestPosts": "最新の記事",
+		"top.allPosts": "ブログをすべて見る",
+		"top.postsUnavailable": "記事を取得できませんでした",
+		"top.history": "歴史",
+		"top.olderHistory": "古い記録を見る",
 	},
 	en: {
 		"site.title": "takkyuuplayer's playground",
@@ -36,6 +41,11 @@ export const ui = {
 		"nav.blog": "Blog",
 		"nav.about": "About",
 		"footer.social": "Social links",
+		"top.latestPosts": "Latest posts",
+		"top.allPosts": "See all posts",
+		"top.postsUnavailable": "Could not load the posts",
+		"top.history": "History (Japanese only)",
+		"top.olderHistory": "Show older records",
 	},
 } as const;
 

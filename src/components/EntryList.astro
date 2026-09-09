@@ -1,0 +1,35 @@
+---
+import { resolveLang } from "../i18n/utils";
+import { formatDate, toDateString } from "../lib/date";
+import type { ListEntry } from "../lib/entries";
+
+interface Props {
+	items: readonly ListEntry[];
+}
+
+const { items } = Astro.props;
+
+const lang = resolveLang(Astro.currentLocale);
+---
+
+<ul class="space-y-2">
+	{
+		items.map((item) => (
+			<li class="flex gap-4">
+				<time
+					datetime={toDateString(item.publishedAt)}
+					class="text-ink-muted shrink-0 tabular-nums"
+				>
+					{formatDate(item.publishedAt, lang)}
+				</time>
+				{item.url ? (
+					<a href={item.url} rel="noopener" class="link">
+						{item.title}
+					</a>
+				) : (
+					<span>{item.title}</span>
+				)}
+			</li>
+		))
+	}
+</ul>
