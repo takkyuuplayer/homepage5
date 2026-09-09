@@ -1,7 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import EntryList from "../../components/EntryList.astro";
-import XTimeline from "../../components/XTimeline.astro";
 import { historyEntries } from "../../data/history";
 import { resolveLang, useTranslations } from "../../i18n/utils";
 import Layout from "../../layouts/Layout.astro";
@@ -28,42 +27,35 @@ const heading = "border-line mb-4 border-b pb-2 text-lg font-bold";
 <Layout>
 	<h1 class="mt-8 text-2xl font-bold">{t("site.title")}</h1>
 
-	<div class="mt-8 grid gap-12 lg:grid-cols-3">
-		<div class="space-y-12 lg:col-span-2">
-			<section>
-				<h2 class={heading}>{t("top.latestPosts")}</h2>
-				{
-					posts.length > 0 ? (
-						<EntryList items={posts} />
-					) : (
-						<p class="text-ink-muted">{t("top.postsUnavailable")}</p>
-					)
-				}
-				<a
-					href={getRelativeLocaleUrl(lang, "blog")}
-					class="focus-visible:outline-accent hover:text-accent mt-4 inline-block rounded-xs hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+	<div class="mt-8 space-y-12">
+		<section>
+			<h2 class={heading}>{t("top.latestPosts")}</h2>
+			{
+				posts.length > 0 ? (
+					<EntryList items={posts} />
+				) : (
+					<p class="text-ink-muted">{t("top.postsUnavailable")}</p>
+				)
+			}
+			<a
+				href={getRelativeLocaleUrl(lang, "blog")}
+				class="focus-visible:outline-accent hover:text-accent mt-4 inline-block rounded-xs hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+			>
+				{t("top.allPosts")}
+			</a>
+		</section>
+
+		<section>
+			<h2 class={heading}>{t("top.history")}</h2>
+			<EntryList items={recentHistory} />
+			<details class="mt-2">
+				<summary
+					class="focus-visible:outline-accent hover:text-accent w-fit cursor-pointer rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2"
 				>
-					{t("top.allPosts")}
-				</a>
-			</section>
-
-			<section>
-				<h2 class={heading}>{t("top.history")}</h2>
-				<EntryList items={recentHistory} />
-				<details class="mt-2">
-					<summary
-						class="focus-visible:outline-accent hover:text-accent w-fit cursor-pointer rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2"
-					>
-						{t("top.olderHistory")}
-					</summary>
-					<EntryList items={olderHistory} />
-				</details>
-			</section>
-		</div>
-
-		<aside>
-			<h2 class={heading}>{t("top.timeline")}</h2>
-			<XTimeline screenName="takkyuuplayer" />
-		</aside>
+					{t("top.olderHistory")}
+				</summary>
+				<EntryList items={olderHistory} />
+			</details>
+		</section>
 	</div>
 </Layout>

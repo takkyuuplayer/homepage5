@@ -23,8 +23,6 @@ export const ui = {
 		"top.postsUnavailable": "記事を取得できませんでした",
 		"top.history": "歴史",
 		"top.olderHistory": "古い記録を見る",
-		"top.timeline": "X の投稿",
-		"top.timelineFallback": "X で @takkyuuplayer を見る",
 	},
 	en: {
 		"site.title": "takkyuuplayer's playground",
@@ -48,8 +46,6 @@ export const ui = {
 		"top.postsUnavailable": "Could not load the posts",
 		"top.history": "History (Japanese only)",
 		"top.olderHistory": "Show older records",
-		"top.timeline": "Posts on X",
-		"top.timelineFallback": "See @takkyuuplayer on X",
 	},
 } as const;
 
