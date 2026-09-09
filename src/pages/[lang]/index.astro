@@ -25,7 +25,9 @@ const heading = "border-line mb-4 border-b pb-2 text-lg font-bold";
 ---
 
 <Layout>
-	<h1 class="mt-8 text-2xl font-bold">{t("site.title")}</h1>
+	<!-- ロゴは aria-hidden の SVG で、包む a は「ホーム」とラベルされている。
+	     サイト名をアクセシビリティツリーに出すのはこの h1 だけ。 -->
+	<h1 class="sr-only">{t("site.title")}</h1>
 
 	<div class="mt-8 space-y-12">
 		<section>
