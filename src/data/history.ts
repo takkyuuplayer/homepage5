@@ -1,4 +1,4 @@
-import { sortByPublishedAt, type ListEntry } from "../lib/entries";
+import type { ListEntry } from "../lib/entries";
 
 export type HistoryItem = {
 	// 時刻を持たない記録なので ISO 8601 の日付だけを持つ。
@@ -9,7 +9,7 @@ export type HistoryItem = {
 
 // homepage4.0 の src/components/History.tsx から原文のまま移植。日本語しかない
 // ため、英語ページでは見出しに注記を付けて同じ内容を出す。
-// 旧データは日付順に並んでいない箇所があるため、表示側でソートする。
+// 表示順をこの配列の順序に任せるため、日付の降順で並べる（テストで保証）。
 export const history: readonly HistoryItem[] = [
 	{
 		date: "2018-11-01",
@@ -299,11 +299,9 @@ export const history: readonly HistoryItem[] = [
 ];
 
 export function historyEntries(): ListEntry[] {
-	return sortByPublishedAt(
-		history.map((item) => ({
-			title: item.title,
-			url: item.url,
-			publishedAt: new Date(item.date),
-		})),
-	);
+	return history.map((item) => ({
+		title: item.title,
+		url: item.url,
+		publishedAt: new Date(item.date),
+	}));
 }

@@ -18,21 +18,22 @@ describe("history", () => {
 			expect(item.title).toBeTruthy();
 		}
 	});
+
+	// 表示側でソートしないため、この配列の順序がそのまま表示順になる。
+	it("should be listed from newest to oldest", () => {
+		const dates = history.map((item) => item.date);
+
+		expect(dates).toEqual([...dates].sort().reverse());
+	});
 });
 
 describe("historyEntries", () => {
-	it("should order records from newest to oldest", () => {
+	it("should keep the order of the data", () => {
 		const entries = historyEntries();
 
 		expect(entries).toHaveLength(history.length);
 		expect(entries[0].publishedAt).toEqual(new Date("2018-11-01"));
 		expect(entries.at(-1)?.publishedAt).toEqual(new Date("2004-04-17"));
-	});
-
-	it("should sort records that the migrated data listed out of order", () => {
-		const dates = historyEntries().map((entry) => entry.publishedAt.getTime());
-
-		expect(dates).toEqual([...dates].sort((a, b) => b - a));
 	});
 
 	it("should keep the link of a record that has one", () => {
