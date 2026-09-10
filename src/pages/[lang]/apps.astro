@@ -1,12 +1,26 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import AppList from "../../components/AppList.astro";
+import { retiredApps, usableApps } from "../../data/apps";
 import { resolveLang, useTranslations } from "../../i18n/utils";
+import Layout from "../../layouts/Layout.astro";
 
 export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 
 const t = useTranslations(resolveLang(Astro.currentLocale));
 ---
 
-<Layout title={t("nav.apps")}>
-	<h1>{t("nav.apps")}</h1>
+<Layout title={t("nav.apps")} description={t("apps.description")}>
+	<h1 class="mt-8 text-2xl font-bold">{t("nav.apps")}</h1>
+
+	<div class="mt-8 space-y-12">
+		<section>
+			<h2 class="section-heading">{t("apps.usable")}</h2>
+			<AppList items={usableApps} />
+		</section>
+
+		<section>
+			<h2 class="section-heading">{t("apps.retired")}</h2>
+			<AppList items={retiredApps} />
+		</section>
+	</div>
 </Layout>

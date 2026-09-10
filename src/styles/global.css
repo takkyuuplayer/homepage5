@@ -40,3 +40,14 @@
 		outline-offset: 2px;
 	}
 }
+
+/* ページ内のセクション見出し。Preflight が h1-h6 を無装飾にするため、見出しの
+   見た目はここで名前を付けて持つ。 */
+@utility section-heading {
+	margin-bottom: --spacing(4);
+	border-bottom: 1px solid var(--color-line);
+	padding-bottom: --spacing(2);
+	font-size: var(--text-lg);
+	line-height: var(--text-lg--line-height);
+	font-weight: 700;
+}

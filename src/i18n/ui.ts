@@ -24,6 +24,12 @@ export const ui = {
 		"top.postsUnavailable": "記事を取得できませんでした",
 		"top.history": "歴史",
 		"top.olderHistory": "古い記録を見る",
+		"apps.usable": "今も使えるもの",
+		"apps.retired": "今は、もう、動かない",
+		"apps.published": "公開",
+		"apps.updated": "更新",
+		"apps.description":
+			"卓球Playerが作ったアプリの一覧。今も使えるものと、もう動かなくなったものをまとめています。",
 	},
 	en: {
 		"site.title": "takkyuuplayer's playground",
@@ -48,6 +54,12 @@ export const ui = {
 		"top.postsUnavailable": "Could not load the posts",
 		"top.history": "History (Japanese only)",
 		"top.olderHistory": "Show older records",
+		"apps.usable": "Still usable",
+		"apps.retired": "No longer working",
+		"apps.published": "Published",
+		"apps.updated": "Updated",
+		"apps.description":
+			"A list of apps made by takkyuuplayer, both the ones still usable and the ones that no longer work.",
 	},
 } as const;
 
