@@ -17,13 +17,17 @@ const iconLink =
 
 <footer class="border-line mt-16 border-t">
 	<div class="container-page flex items-center justify-between py-6">
+		<!-- SNS のロゴ自体が外部サービスへ出る印として働くので、その隣に open_in_new を
+		     並べるとアイコンが 2 つになる。視覚的な印は足さず、告知は aria-label に
+		     含める。aria-label は要素の内容より優先されるため、内側に sr-only を
+		     置いても読み上げられない。 -->
 		<nav aria-label={t("footer.social")}>
 			<ul class="flex items-center gap-1">
 				<li>
 					<a
 						href="https://github.com/takkyuuplayer"
-						rel="noopener"
-						aria-label="GitHub"
+						target="_blank"
+						aria-label={`GitHub ${t("link.newTab")}`}
 						class={iconLink}
 					>
 						<Github class="block h-5 w-auto" aria-hidden="true" />
@@ -32,8 +36,8 @@ const iconLink =
 				<li>
 					<a
 						href="https://www.linkedin.com/in/takkyuuplayer/"
-						rel="noopener"
-						aria-label="LinkedIn"
+						target="_blank"
+						aria-label={`LinkedIn ${t("link.newTab")}`}
 						class={iconLink}
 					>
 						<Image
@@ -48,8 +52,8 @@ const iconLink =
 				<li>
 					<a
 						href="https://x.com/takkyuuplayer"
-						rel="noopener"
-						aria-label="X"
+						target="_blank"
+						aria-label={`X ${t("link.newTab")}`}
 						class={iconLink}
 					>
 						<X class="block h-5 w-auto" aria-hidden="true" />
