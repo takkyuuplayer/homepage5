@@ -1,0 +1,28 @@
+---
+import OpenInNew from "../assets/open-in-new.svg";
+import { resolveLang, useTranslations } from "../i18n/utils";
+
+interface Props {
+	href: string;
+	class?: string;
+}
+
+const { href, class: className } = Astro.props;
+
+const t = useTranslations(resolveLang(Astro.currentLocale));
+---
+
+<!-- rel は書かない。target="_blank" は rel に opener が無い限り noopener を
+     含意する（HTML Standard の "get an element's noopener"）ため、
+     rel="noopener" は仕様が保証しているものの重複になる。
+     アイコンは目で見る読者向け、sr-only は読み上げ向けで、WCAG G201 が挙げる
+     2 つの告知方法は届く相手が違うので両方置く。 -->
+<a href={href} target="_blank" class:list={["link", className]}>
+	<slot />
+	<OpenInNew
+		class="ml-1 inline-block h-4 w-auto align-text-bottom"
+		fill="currentColor"
+		aria-hidden="true"
+	/>
+	<span class="sr-only">{t("link.newTab")}</span>
+</a>
