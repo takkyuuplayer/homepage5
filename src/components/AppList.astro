@@ -1,0 +1,77 @@
+---
+import type { RetiredApp } from "../data/apps";
+import { resolveLang, useTranslations } from "../i18n/utils";
+import { formatDate, toDateString } from "../lib/date";
+import ExternalLink from "./ExternalLink.astro";
+
+interface Props {
+	// RetiredApp が足すフィールドはすべて省略可なので、記録を持たない App の配列も
+	// そのまま渡せる。
+	items: readonly RetiredApp[];
+}
+
+const { items } = Astro.props;
+
+const lang = resolveLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
+// 4 つの断片は独立して欠ける。Sta6DView のようにバージョンが無く更新日だけある
+// 組み合わせがあるため、入れ子にせず並列に持つ。
+type MetaPart = { label?: string; text?: string; date?: Date };
+
+function metaParts(app: RetiredApp): MetaPart[] {
+	const parts: MetaPart[] = [];
+	if (app.env) parts.push({ text: app.env });
+	if (app.publishedOn) {
+		parts.push({ label: t("apps.published"), date: new Date(app.publishedOn) });
+	}
+	if (app.version) parts.push({ text: `v${app.version}` });
+	if (app.lastUpdatedOn) {
+		parts.push({ label: t("apps.updated"), date: new Date(app.lastUpdatedOn) });
+	}
+	return parts;
+}
+
+const rows = items.map((app) => ({ app, meta: metaParts(app) }));
+---
+
+<ul class="space-y-6">
+	{
+		rows.map(({ app, meta }) => (
+			<li>
+				<div>
+					{app.url === undefined ? (
+						<span>{app.title}</span>
+					) : app.type === "web" ? (
+						<ExternalLink href={app.url}>{app.title}</ExternalLink>
+					) : (
+						<a href={app.url} class="link">
+							{app.title}
+							<span class="ml-1 text-sm">ZIP</span>
+						</a>
+					)}
+				</div>
+
+				<p class="mt-1">{app.description[lang]}</p>
+
+				{meta.length > 0 && (
+					<p class="text-ink-muted mt-1 text-sm">
+						{meta.map((part, index) => (
+							<>
+								{index > 0 && " · "}
+								{part.label && `${part.label} `}
+								{part.date ? (
+									<time datetime={toDateString(part.date)}>
+										{formatDate(part.date, lang)}
+									</time>
+								) : (
+									part.text
+								)}
+							</>
+						))}
+					</p>
+				)}
+			</li>
+		))
+	}
+</ul>

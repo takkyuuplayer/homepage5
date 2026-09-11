@@ -19,8 +19,6 @@ const posts = (await fetchEntries()).slice(0, 5);
 // 履歴は日本語のみなので、英語ページでも同じ内容を出す（見出しに注記あり）。
 const recentHistory = historyEntries.slice(0, 10);
 const olderHistory = historyEntries.slice(10);
-
-const heading = "border-line mb-4 border-b pb-2 text-lg font-bold";
 ---
 
 <Layout>
@@ -30,7 +28,7 @@ const heading = "border-line mb-4 border-b pb-2 text-lg font-bold";
 
 	<div class="mt-8 space-y-12">
 		<section>
-			<h2 class={heading}>{t("top.latestPosts")}</h2>
+			<h2 class="section-heading">{t("top.latestPosts")}</h2>
 			{
 				posts.length > 0 ? (
 					<EntryList items={posts} />
@@ -47,7 +45,7 @@ const heading = "border-line mb-4 border-b pb-2 text-lg font-bold";
 		</section>
 
 		<section>
-			<h2 class={heading}>{t("top.history")}</h2>
+			<h2 class="section-heading">{t("top.history")}</h2>
 			<EntryList items={recentHistory} />
 			<details class="mt-2">
 				<summary
