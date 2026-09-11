@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { retiredApps, usableApps, type App } from "./apps";
 
@@ -69,13 +71,6 @@ describe("apps links", () => {
 	// 移植元は url を組み立てていたため、Sta6DView の空欄が存在しないパスへの
 	// リンクになっていた。データとファイルの対応を機械で確かめる。
 	it("should ship every bundled zip it links to", () => {
-		// glob は @types/node なしでビルド時にパスを列挙できる。値は読まないので
-		// 遅延インポートのままキーだけ使う。
-		const shipped = new Set(
-			Object.keys(import.meta.glob("../../public/software/*.zip")).map((path) =>
-				path.replace("../../public", ""),
-			),
-		);
 		const bundled = retiredApps.filter(
 			(app) => app.type === "standalone" && app.url?.startsWith("/software/"),
 		);
@@ -84,7 +79,10 @@ describe("apps links", () => {
 		expect(bundled).toHaveLength(6);
 
 		for (const app of bundled) {
-			expect(shipped, app.title).toContain(app.url);
+			const path = fileURLToPath(
+				new URL(`../../public${app.url}`, import.meta.url),
+			);
+			expect(existsSync(path), app.title).toBe(true);
 		}
 	});
 });
