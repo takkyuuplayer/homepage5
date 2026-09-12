@@ -54,6 +54,36 @@ describe("splitTex", () => {
 		]);
 	});
 
+	it("should return no segments for an empty string", () => {
+		expect(splitTex("")).toEqual([]);
+	});
+
+	// 「このとき \\begin{align*}」のような文章と数式の間の空白は、表示の間隔として
+	// 必要なので削らない。
+	it("should keep whitespace-only text between formulas", () => {
+		expect(splitTex("$a$ $b$")).toEqual([
+			{ kind: "math", value: "a", display: false },
+			{ kind: "text", value: " " },
+			{ kind: "math", value: "b", display: false },
+		]);
+	});
+
+	it("should take delimiters in order of appearance, not of kind", () => {
+		const source = String.raw`$a$ と \begin{align*}b\end{align*} と $$c$$`;
+
+		expect(splitTex(source).map((segment) => segment.value)).toEqual([
+			"a",
+			" と ",
+			String.raw`\begin{align*}b\end{align*}`,
+			" と ",
+			"c",
+		]);
+	});
+
+	it("should throw on an unclosed $$ instead of reading it as two inline formulas", () => {
+		expect(() => splitTex("$$a$")).toThrow("$$ が閉じられていません");
+	});
+
 	it("should throw on an unclosed delimiter", () => {
 		expect(() => splitTex("閉じない$AC")).toThrow("$ が閉じられていません");
 		expect(() => splitTex(String.raw`\begin{align*}a&=b`)).toThrow(
@@ -75,6 +105,21 @@ describe("renderMath", () => {
 
 	it("should mark display math as a block", () => {
 		expect(renderMath("a=b", true)).toContain('display="block"');
+	});
+
+	// 問 2・3・4 は align* をそのまま渡す。aligned に書き換えなくても通ることを保証する。
+	it("should render an align* environment in display mode", () => {
+		const html = renderMath(
+			String.raw`\begin{align*}a&=b\\c&=d\end{align*}`,
+			true,
+		);
+
+		expect(html).toContain('display="block"');
+		expect(html).toContain("<mtable");
+	});
+
+	it("should not mark inline math as a block", () => {
+		expect(renderMath("a=b", false)).not.toContain('display="block"');
 	});
 
 	it("should throw on LaTeX that Temml cannot render", () => {
