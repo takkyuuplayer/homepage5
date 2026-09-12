@@ -86,8 +86,26 @@ function fromAtomEntry(entry: Node): Entry | undefined {
 	);
 }
 
+// Medium の RSS は link に source=rss-… という追跡用のクエリを付けてくる。
+// 訪問者に渡す理由がないので落とす。URL として読めない値は手を加えずに返し、
+// 捨てるかどうかの判断は toEntry に任せる。
+function withoutTrackingQuery(url: string): string {
+	let parsed: URL;
+	try {
+		parsed = new URL(url);
+	} catch {
+		return url;
+	}
+	parsed.searchParams.delete("source");
+	return parsed.toString();
+}
+
 function fromRssItem(item: Node): Entry | undefined {
-	return toEntry(textOf(item.title), textOf(item.link), dateOf(item.pubDate));
+	return toEntry(
+		textOf(item.title),
+		withoutTrackingQuery(textOf(item.link)),
+		dateOf(item.pubDate),
+	);
 }
 
 export function parseFeed(xml: string): Entry[] {
