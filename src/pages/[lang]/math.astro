@@ -1,7 +1,7 @@
 ---
 import FileLink from "../../components/FileLink.astro";
 import TexText from "../../components/TexText.astro";
-import { lectures, problems } from "../../data/math";
+import { answerFile, lectures, problems, type Problem } from "../../data/math";
 import { resolveLang, useTranslations } from "../../i18n/utils";
 import Layout from "../../layouts/Layout.astro";
 
@@ -26,17 +26,10 @@ function pdfUrl(file: string): string {
 	return url;
 }
 
-const problemRows = problems.map((problem) => ({
-	problem,
-	answerUrl: problem.withdrawn
-		? undefined
-		: pdfUrl(`ans${String(problem.number).padStart(2, "0")}`),
-}));
-
-const lectureRows = lectures.map((lecture) => ({
-	lecture,
-	url: pdfUrl(lecture.file),
-}));
+function answerUrl(problem: Problem): string | undefined {
+	const file = answerFile(problem);
+	return file === undefined ? undefined : pdfUrl(file);
+}
 ---
 
 <Layout title={t("nav.math")} description={t("math.description")}>
@@ -51,21 +44,24 @@ const lectureRows = lectures.map((lecture) => ({
 			<p>{t("math.kingdom.message")}</p>
 			<ul class="mt-6 space-y-8">
 				{
-					problemRows.map(({ problem, answerUrl }) => (
-						<li>
-							<h3 class="font-bold">
-								{t("math.problem")} {problem.number}. {problem.topic[lang]}
-							</h3>
-							<TexText tex={problem.statement} class="mt-2" />
-							{answerUrl && (
-								<p class="mt-2">
-									<FileLink href={answerUrl} format="PDF">
-										{t("math.answer")}
-									</FileLink>
-								</p>
-							)}
-						</li>
-					))
+					problems.map((problem) => {
+						const url = answerUrl(problem);
+						return (
+							<li>
+								<h3 class="font-bold">
+									{t("math.problem")} {problem.number}. {problem.topic[lang]}
+								</h3>
+								<TexText tex={problem.statement} class="mt-2" />
+								{url && (
+									<p class="mt-2">
+										<FileLink href={url} format="PDF">
+											{t("math.answer")}
+										</FileLink>
+									</p>
+								)}
+							</li>
+						);
+					})
 				}
 			</ul>
 		</section>
@@ -74,9 +70,9 @@ const lectureRows = lectures.map((lecture) => ({
 			<h2 class="section-heading">{t("math.class")}</h2>
 			<ul class="space-y-2">
 				{
-					lectureRows.map(({ lecture, url }) => (
+					lectures.map((lecture) => (
 						<li>
-							<FileLink href={url} format="PDF">
+							<FileLink href={pdfUrl(lecture.file)} format="PDF">
 								{lecture.title}
 							</FileLink>
 						</li>

@@ -2,8 +2,8 @@ import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { langs } from "../i18n/ui";
-import { renderMath, splitTex } from "../lib/tex";
-import { lectures, problems } from "./math";
+import { parseTex, renderMath } from "../lib/tex";
+import { answerFile, lectures, problems } from "./math";
 
 function assetPath(file: string): string {
 	return fileURLToPath(new URL(`../assets/math/${file}`, import.meta.url));
@@ -40,12 +40,15 @@ describe("problems", () => {
 	// ビルドでも同じ失敗は見つかるが、LaTeX の誤りを直すループはこちらの方が速い。
 	it("should have statements that Temml can render", () => {
 		for (const problem of problems) {
-			for (const paragraph of problem.statement.split("\n")) {
-				for (const segment of splitTex(paragraph)) {
-					if (segment.kind !== "math") continue;
+			for (const block of parseTex(problem.statement)) {
+				const formulas =
+					block.kind === "display"
+						? [{ value: block.value, display: true }]
+						: block.segments.filter((segment) => segment.kind === "math");
+				for (const formula of formulas) {
 					expect(
-						() => renderMath(segment.value, segment.display),
-						`問 ${problem.number}: ${segment.value}`,
+						() => renderMath(formula.value, formula.display),
+						`問 ${problem.number}: ${formula.value}`,
 					).not.toThrow();
 				}
 			}
@@ -54,8 +57,12 @@ describe("problems", () => {
 
 	it("should ship an answer PDF for every problem that is not withdrawn", () => {
 		for (const problem of problems) {
-			const file = `ans${String(problem.number).padStart(2, "0")}.pdf`;
-			expect(existsSync(assetPath(file)), file).toBe(!problem.withdrawn);
+			const file = answerFile(problem);
+			if (file === undefined) {
+				expect(problem.withdrawn, String(problem.number)).toBe(true);
+				continue;
+			}
+			expect(existsSync(assetPath(`${file}.pdf`)), file).toBe(true);
 		}
 	});
 });

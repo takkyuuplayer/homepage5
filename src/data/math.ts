@@ -2,8 +2,7 @@ import type { Lang } from "../i18n/ui";
 
 // homepage4.0 の math ページを移植したもの。問題文の出典は当時の TeX 原稿
 // （数学王国.tex の \begin{barred}[分野]{prob} … \end{barred}）、講義は数学教室.tex の
-// \section。原稿はリポジトリには入れず、開発者が別に保管している。移植元の toi*.png は
-// この TeX から作られた画像だった。
+// \section。移植元の toi*.png はこの TeX から作られた画像だった。
 //
 // 原稿からの変更は次の 4 箇所だけ。半角の「, 」「. 」は当時の文体として残す。
 // - 問 11: エディタの残骸 \textrm{\textsl{, }} を「, 」に
@@ -20,6 +19,12 @@ export type Problem = {
 	// 問 14 は解答が誤りだったため取りやめになっていて、PDF も注記だけ。
 	withdrawn?: true;
 };
+
+// 解答 PDF の名前（拡張子なし）。取りやめの問には無い。
+export function answerFile(problem: Problem): string | undefined {
+	if (problem.withdrawn) return undefined;
+	return `ans${String(problem.number).padStart(2, "0")}`;
+}
 
 export type Lecture = {
 	// 講義プリントは日本語のみなので、タイトルも翻訳しない。
