@@ -1,4 +1,5 @@
 ---
+import FileLink from "../../components/FileLink.astro";
 import TexText from "../../components/TexText.astro";
 import { lectures, problems } from "../../data/math";
 import { resolveLang, useTranslations } from "../../i18n/utils";
@@ -58,9 +59,9 @@ const lectureRows = lectures.map((lecture) => ({
 							<TexText tex={problem.statement} class="mt-2" />
 							{answerUrl && (
 								<p class="mt-2">
-									<a href={answerUrl} class="link">
-										{t("math.answer")} <span class="text-sm">PDF</span>
-									</a>
+									<FileLink href={answerUrl} format="PDF">
+										{t("math.answer")}
+									</FileLink>
 								</p>
 							)}
 						</li>
@@ -75,9 +76,9 @@ const lectureRows = lectures.map((lecture) => ({
 				{
 					lectureRows.map(({ lecture, url }) => (
 						<li>
-							<a href={url} class="link">
-								{lecture.title} <span class="text-sm">PDF</span>
-							</a>
+							<FileLink href={url} format="PDF">
+								{lecture.title}
+							</FileLink>
 						</li>
 					))
 				}
