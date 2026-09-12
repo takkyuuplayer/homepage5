@@ -51,3 +51,12 @@
 	line-height: var(--text-lg--line-height);
 	font-weight: 700;
 }
+
+/* ページの h1。section-heading と同じ理由で名前を持つ。apps・math と 3 ページ目で
+   同じクラス列を書くことになったので切り出した。 */
+@utility page-heading {
+	margin-top: --spacing(8);
+	font-size: var(--text-2xl);
+	line-height: var(--text-2xl--line-height);
+	font-weight: 700;
+}
