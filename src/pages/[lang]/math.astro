@@ -1,12 +1,83 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import FileLink from "../../components/FileLink.astro";
+import TexText from "../../components/TexText.astro";
+import { answerFile, lectures, problems, type Problem } from "../../data/math";
 import { resolveLang, useTranslations } from "../../i18n/utils";
+import Layout from "../../layouts/Layout.astro";
 
 export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 
-const t = useTranslations(resolveLang(Astro.currentLocale));
+const lang = resolveLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
+// PDF は src/assets に置き、Vite にハッシュ付きの URL を付けさせる。
+const pdfUrls = import.meta.glob<string>("../../assets/math/*.pdf", {
+	eager: true,
+	query: "?url",
+	import: "default",
+});
+
+function pdfUrl(file: string): string {
+	const url = pdfUrls[`../../assets/math/${file}.pdf`];
+	if (url === undefined) {
+		throw new Error(`src/assets/math/${file}.pdf がありません`);
+	}
+	return url;
+}
+
+// 問題文は日本語のみなので、英語ページでも同じ内容を出す（見出しに注記あり）。
+// 番号は見出しの文字列として書く。ol の自動番号は list-style を消すと読み上げから
+// 消えるブラウザがあるため使わない。
+function answerUrl(problem: Problem): string | undefined {
+	const file = answerFile(problem);
+	return file === undefined ? undefined : pdfUrl(file);
+}
 ---
 
-<Layout title={t("nav.math")}>
-	<h1>{t("nav.math")}</h1>
+<Layout title={t("nav.math")} description={t("math.description")}>
+	<h1 class="page-heading">{t("nav.math")}</h1>
+
+	<div class="mt-8 space-y-12">
+		<section>
+			<h2 class="section-heading">{t("math.kingdom")}</h2>
+			<p>{t("math.kingdom.message")}</p>
+			<ul class="mt-6 space-y-8">
+				{
+					problems.map((problem) => {
+						const url = answerUrl(problem);
+						return (
+							<li>
+								<h3 class="font-bold">
+									{t("math.problem")} {problem.number}. {problem.topic[lang]}
+								</h3>
+								<TexText tex={problem.statement} class="mt-2" />
+								{url && (
+									<p class="mt-2">
+										<FileLink href={url} format="PDF">
+											{t("math.answer")}
+										</FileLink>
+									</p>
+								)}
+							</li>
+						);
+					})
+				}
+			</ul>
+		</section>
+
+		<section>
+			<h2 class="section-heading">{t("math.class")}</h2>
+			<ul class="space-y-2">
+				{
+					lectures.map((lecture) => (
+						<li>
+							<FileLink href={pdfUrl(lecture.file)} format="PDF">
+								{lecture.title}
+							</FileLink>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</div>
 </Layout>

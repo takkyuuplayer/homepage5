@@ -1,0 +1,18 @@
+---
+interface Props {
+	href: string;
+	// 押すと何が開くかをリンクテキストの内側で伝える。両言語同じ表記なので翻訳しない。
+	format: "PDF" | "ZIP";
+	class?: string;
+}
+
+// 印は margin ではなく空白文字で離す。下線は空白には付くが margin には付かず、
+// 空白が無いと読み上げが「答えPDF」と一語になる。
+const { href, format, class: className } = Astro.props;
+---
+
+<a href={href} class:list={["link", className]}>
+	<slot />
+	{" "}
+	<span class="text-sm">{format}</span>
+</a>

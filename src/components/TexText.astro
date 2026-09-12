@@ -1,0 +1,37 @@
+---
+import { parseTex, renderMath } from "../lib/tex";
+
+interface Props {
+	tex: string;
+	class?: string;
+}
+
+const { tex, class: className } = Astro.props;
+
+// text 断片は Astro のエスケープを通し、set:html は Temml が出した MathML にだけ使う。
+// display の数式を <p> に入れて overflow-x を付けると overflow-y も auto になり、
+// 行ボックスと <math> の高さのずれで縦のスクロールバーが出るため、単独の div を
+// 横スクロールの入れ物にする。
+const blocks = parseTex(tex);
+---
+
+{
+	blocks.map((block) =>
+		block.kind === "display" ? (
+			<div
+				class:list={[className, "overflow-x-auto overflow-y-hidden"]}
+				set:html={renderMath(block.value, true)}
+			/>
+		) : (
+			<p class={className}>
+				{block.segments.map((segment) =>
+					segment.kind === "math" ? (
+						<Fragment set:html={renderMath(segment.value, false)} />
+					) : (
+						segment.value
+					),
+				)}
+			</p>
+		),
+	)
+}

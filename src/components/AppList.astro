@@ -3,6 +3,7 @@ import type { RetiredApp } from "../data/apps";
 import { resolveLang, useTranslations } from "../i18n/utils";
 import { formatDate, toDateString } from "../lib/date";
 import ExternalLink from "./ExternalLink.astro";
+import FileLink from "./FileLink.astro";
 
 interface Props {
 	// RetiredApp が足すフィールドはすべて省略可なので、記録を持たない App の配列も
@@ -45,10 +46,9 @@ const rows = items.map((app) => ({ app, meta: metaParts(app) }));
 					) : app.type === "web" ? (
 						<ExternalLink href={app.url}>{app.title}</ExternalLink>
 					) : (
-						<a href={app.url} class="link">
+						<FileLink href={app.url} format="ZIP">
 							{app.title}
-							<span class="ml-1 text-sm">ZIP</span>
-						</a>
+						</FileLink>
 					)}
 				</div>
 
