@@ -29,10 +29,28 @@ describe("parseFeed", () => {
 		expect(parseFeed(medium)).toEqual([
 			{
 				title: "Image hosting in the 2010s’ way",
-				url: "https://medium.com/@takkyuuplayer/image-hosting-in-the-2010s-way-e346bdba3dfd?source=rss-d0ae429053fa------2",
+				url: "https://medium.com/@takkyuuplayer/image-hosting-in-the-2010s-way-e346bdba3dfd",
 				publishedAt: new Date("Wed, 16 Jan 2019 03:52:29 GMT"),
 			},
 		]);
+	});
+
+	function rssWithLink(link: string): string {
+		return `<rss version="2.0"><channel><item>
+			<title>linked</title>
+			<link>${link}</link>
+			<pubDate>Wed, 16 Jan 2019 03:52:29 GMT</pubDate>
+		</item></channel></rss>`;
+	}
+
+	it("should drop only the source query from an RSS link", () => {
+		const xml = rssWithLink("https://example.com/a?source=rss-x------2&page=2");
+
+		expect(parseFeed(xml)[0].url).toBe("https://example.com/a?page=2");
+	});
+
+	it("should leave an RSS link that is not a URL as it is", () => {
+		expect(parseFeed(rssWithLink("not a url"))[0].url).toBe("not a url");
 	});
 
 	it("should keep a numeric title as a string", () => {
