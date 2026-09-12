@@ -23,7 +23,8 @@
 		"@tailwindcss/vite": "^4.3.3",
 		"astro": "^7.3.2",
 		"fast-xml-parser": "^5.11.1",
-		"tailwindcss": "^4.3.3"
+		"tailwindcss": "^4.3.3",
+		"temml": "^0.13.5"
 	},
 	"allowScripts": {
 		"esbuild": true
