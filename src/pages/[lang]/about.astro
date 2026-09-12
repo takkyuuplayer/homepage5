@@ -13,7 +13,7 @@ const t = useTranslations(resolveLang(Astro.currentLocale));
 	<h1 class="page-heading">{t("nav.about")}</h1>
 
 	<div class="mt-8 space-y-4">
-		<p>{t("about.message1")}</p>
+		<p>{t("about.beforeHosts")}</p>
 		<!-- 段落 1 の途中で移転履歴に入り、段落 2 で文に戻る構造は移植元のまま。
 		     移転の順番そのものが内容なので ol で持つ。 -->
 		<ol
@@ -24,10 +24,10 @@ const t = useTranslations(resolveLang(Astro.currentLocale));
 				hosts.map((host) => (
 					<li>
 						{host.closed ? (
-							<span>
+							<>
 								{host.name}
 								<span class="text-ink-muted">{t("service.closed")}</span>
-							</span>
+							</>
 						) : (
 							<ExternalLink href={host.url}>{host.name}</ExternalLink>
 						)}
@@ -35,8 +35,8 @@ const t = useTranslations(resolveLang(Astro.currentLocale));
 				))
 			}
 		</ol>
-		<p>{t("about.message2")}</p>
-		<p>{t("about.message3")}</p>
+		<p>{t("about.afterHosts")}</p>
+		<p>{t("about.closing")}</p>
 	</div>
 </Layout>
 

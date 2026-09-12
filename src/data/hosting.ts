@@ -8,6 +8,7 @@ export type Host = {
 	// 終了したサービスも、当時どこに置いていたかの記録として url を残す。
 	// 表示側は closed のものにリンクを張らない。
 	url: string;
+	// 現役のホストは closed を持たない。false を書かせず、「現役」の表し方を 1 つにする。
 	closed?: true;
 };
 

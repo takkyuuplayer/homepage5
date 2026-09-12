@@ -43,11 +43,11 @@ export const ui = {
 		"math.answer": "答え",
 		"math.description":
 			"学生時代に作った数学の問題と、その解答・講義プリント。",
-		"about.message1": "高校からずーーっと更新し続けています。サーバーを",
+		"about.beforeHosts": "高校からずーーっと更新し続けています。サーバーを",
 		"about.hosts": "サーバーの移り変わり",
-		"about.message2":
+		"about.afterHosts":
 			"と移動してきました。私のプログラムスキルの発展はこのホームページと共にあったと言ってよいです。",
-		"about.message3":
+		"about.closing":
 			"職業としてのWEBエンジニアを選んで以来、あまり自身のホームページの事は気にかけなくなりました。とはいえ不意に昔作ったコンテンツを見返しては、懐かしい思い出に耽っています。",
 		"about.description":
 			"卓球Playerからのご挨拶。高校生のころから続けてきたこのホームページの来歴と、置いてきたサーバーの移り変わり。",
@@ -95,12 +95,12 @@ export const ui = {
 		"math.answer": "Answer",
 		"math.description":
 			"Math quizzes made in my student days, with answers and lecture notes (Japanese only).",
-		"about.message1":
+		"about.beforeHosts":
 			"I've updated this website since I was a high school student. It has been hosted at",
 		"about.hosts": "Hosting history",
-		"about.message2":
+		"about.afterHosts":
 			"My programming skill has developed along with the website.",
-		"about.message3":
+		"about.closing":
 			"I rarely update any contents, ever since I started a career as a professional web engineer. However, I sometimes come back here and feel nostalgic memories.",
 		"about.description":
 			"A short welcome from takkyuuplayer, and how this website has moved between hosts since high school.",

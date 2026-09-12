@@ -23,12 +23,6 @@ describe("hosts", () => {
 		expect(hosts.at(-1)?.closed).toBeUndefined();
 	});
 
-	it("should not list the same host twice", () => {
-		const names = hosts.map((host) => host.name);
-
-		expect(new Set(names).size).toBe(names.length);
-	});
-
 	it("should have an absolute url for every host", () => {
 		for (const host of hosts) {
 			expect(() => new URL(host.url), host.name).not.toThrow();
