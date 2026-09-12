@@ -131,13 +131,38 @@ describe("fetchEntries", () => {
 		});
 
 		const entries = await fetchEntries([
-			"https://blogspot.example/feed",
-			"https://hatena.example/feed",
-			"https://medium.example/feed",
+			{ url: "https://blogspot.example/feed", source: "blogger" },
+			{ url: "https://hatena.example/feed", source: "hatena" },
+			{ url: "https://medium.example/feed", source: "medium" },
 		]);
 
 		expect(entries.map((entry) => entry.publishedAt.getUTCFullYear())).toEqual([
 			2019, 2016, 2014,
+		]);
+	});
+
+	// 出典はフィードの中身ではなく、どのフィードを読んだかで決まる。fixture の
+	// 架空ホストでも正しく付くことで、記事 URL から推測していないことを確かめる。
+	it("should mark every entry with the source of its feed", async () => {
+		stubFetch({
+			"https://hatena.example/feed": hatena,
+			"https://medium.example/feed": medium,
+		});
+
+		const entries = await fetchEntries([
+			{ url: "https://hatena.example/feed", source: "hatena" },
+			{ url: "https://medium.example/feed", source: "medium" },
+		]);
+
+		expect(entries.map((entry) => [entry.source, entry.url])).toEqual([
+			[
+				"medium",
+				"https://medium.com/@takkyuuplayer/image-hosting-in-the-2010s-way-e346bdba3dfd",
+			],
+			[
+				"hatena",
+				"https://takkyuuplayer.hatenablog.com/entry/2016/12/14/225435",
+			],
 		]);
 	});
 
@@ -152,8 +177,8 @@ describe("fetchEntries", () => {
 		});
 
 		const entries = await fetchEntries([
-			"https://hatena.example/feed",
-			"https://broken.example/feed",
+			{ url: "https://hatena.example/feed", source: "hatena" },
+			{ url: "https://broken.example/feed", source: "blogger" },
 		]);
 
 		expect(entries).toHaveLength(1);

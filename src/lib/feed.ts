@@ -1,14 +1,12 @@
 import { XMLParser } from "fast-xml-parser";
+import { feedSources, type BlogSource, type FeedSource } from "../data/blogs";
 import type { ListEntry } from "./entries";
 
-// フィード由来のエントリは必ずリンクを持つ。
-export type Entry = ListEntry & { url: string };
+// フィードから読み取った 1 記事。必ずリンクを持つ。出典はフィードの中身からは
+// 分からないため、どのフィードから読んだかを知っている fetchEntries が付ける。
+export type ParsedEntry = ListEntry & { url: string };
 
-export const feedUrls = [
-	"https://takkyuuplayer.blogspot.com/feeds/posts/summary",
-	"https://takkyuuplayer.hatenablog.com/feed",
-	"https://medium.com/feed/@takkyuuplayer",
-] as const;
+export type Entry = ParsedEntry & { source: BlogSource };
 
 // ignoreAttributes は既定 true で、Atom の link から rel/href が落ちる。
 // parseTagValue は既定 true で、<title>2024</title> が数値 2024 になる。
@@ -72,12 +70,12 @@ function toEntry(
 	title: string,
 	url: string,
 	publishedAt: Date | undefined,
-): Entry | undefined {
+): ParsedEntry | undefined {
 	if (title === "" || url === "" || publishedAt === undefined) return undefined;
 	return { title, url, publishedAt };
 }
 
-function fromAtomEntry(entry: Node): Entry | undefined {
+function fromAtomEntry(entry: Node): ParsedEntry | undefined {
 	return toEntry(
 		textOf(entry.title),
 		atomHref(entry.link),
@@ -100,7 +98,7 @@ function withoutTrackingQuery(url: string): string {
 	return parsed.toString();
 }
 
-function fromRssItem(item: Node): Entry | undefined {
+function fromRssItem(item: Node): ParsedEntry | undefined {
 	return toEntry(
 		textOf(item.title),
 		withoutTrackingQuery(textOf(item.link)),
@@ -108,7 +106,7 @@ function fromRssItem(item: Node): Entry | undefined {
 	);
 }
 
-export function parseFeed(xml: string): Entry[] {
+export function parseFeed(xml: string): ParsedEntry[] {
 	const doc = asNode(parser.parse(xml));
 
 	const feed = asNode(doc?.feed);
@@ -122,15 +120,18 @@ export function parseFeed(xml: string): Entry[] {
 }
 
 export async function fetchEntries(
-	urls: readonly string[] = feedUrls,
+	sources: readonly FeedSource[] = feedSources,
 ): Promise<Entry[]> {
 	const results = await Promise.allSettled(
-		urls.map(async (url) => {
+		sources.map(async ({ url, source }) => {
 			const response = await fetch(url);
 			if (!response.ok) {
 				throw new Error(`${response.status} ${response.statusText}: ${url}`);
 			}
-			return parseFeed(await response.text());
+			return parseFeed(await response.text()).map((entry) => ({
+				...entry,
+				source,
+			}));
 		}),
 	);
 
