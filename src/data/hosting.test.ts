@@ -17,6 +17,12 @@ describe("hosts", () => {
 		]);
 	});
 
+	// 末尾はこのサイトが今動いている場所。終了扱いになっていたら、移転したのに
+	// 追記を忘れているか、closed の付け間違い。
+	it("should end with a host that is still running", () => {
+		expect(hosts.at(-1)?.closed).toBeUndefined();
+	});
+
 	it("should not list the same host twice", () => {
 		const names = hosts.map((host) => host.name);
 
