@@ -24,6 +24,12 @@ export const ui = {
 		"top.postsUnavailable": "記事を取得できませんでした",
 		"top.history": "歴史",
 		"top.olderHistory": "古い記録を見る",
+		"blog.lead":
+			"時期によって書く場所を変えてきました。どこに書いた記事も、ここに新しい順で並べています。",
+		"blog.closed": "（サービス終了）",
+		"blog.posts": "記事",
+		"blog.description":
+			"卓球Playerがこれまでに書いたブログ記事の一覧。はてなブログ、Blogger、Medium の記事をまとめています。",
 		"apps.usable": "今も使えるもの",
 		"apps.retired": "今は、もう、動かない",
 		"apps.published": "公開",
@@ -61,6 +67,12 @@ export const ui = {
 		"top.postsUnavailable": "Could not load the posts",
 		"top.history": "History (Japanese only)",
 		"top.olderHistory": "Show older records",
+		"blog.lead":
+			"I have moved between platforms over the years. Posts from all of them are listed here, newest first. Most of them are in Japanese.",
+		"blog.closed": "(service closed)",
+		"blog.posts": "Posts",
+		"blog.description":
+			"Every blog post by takkyuuplayer so far, collected from Hatena Blog, Blogger and Medium.",
 		"apps.usable": "Still usable",
 		"apps.retired": "No longer working",
 		"apps.published": "Published",

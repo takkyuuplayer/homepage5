@@ -1,12 +1,68 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import EntryList from "../../components/EntryList.astro";
+import ExternalLink from "../../components/ExternalLink.astro";
+import { blogs, hasFeed } from "../../data/blogs";
 import { resolveLang, useTranslations } from "../../i18n/utils";
+import Layout from "../../layouts/Layout.astro";
+import { fetchEntries } from "../../lib/feed";
 
 export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 
-const t = useTranslations(resolveLang(Astro.currentLocale));
+const lang = resolveLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
+// トップページと同じくビルド時に一度だけ取る。同じビルドでトップと合わせて
+// 4 回走るが、数十 KB の取得なので共有しない。
+const posts = await fetchEntries();
+
+// 移植元のナビにあった「現在 ~ 2014」のような表記は正確でなくなっていたため、
+// フィードの記事日付で確認した年を出す。同じ年で始まり終わるものは 1 つにする。
+function period(from: number, to: number): string {
+	return from === to ? `${from}` : `${from}–${to}`;
+}
 ---
 
-<Layout title={t("nav.blog")}>
+<Layout title={t("nav.blog")} description={t("blog.description")}>
 	<h1 class="page-heading">{t("nav.blog")}</h1>
+
+	<div class="mt-8 space-y-12">
+		<section>
+			<p>{t("blog.lead")}</p>
+			<ul class="mt-4 space-y-2">
+				{
+					blogs.map((blog) => (
+						<li class="flex flex-wrap gap-x-4">
+							{hasFeed(blog) ? (
+								<>
+									<span class="text-ink-muted shrink-0 tabular-nums">
+										{period(blog.from, blog.to)}
+									</span>
+									<ExternalLink href={blog.url}>{blog.name[lang]}</ExternalLink>
+								</>
+							) : (
+								<span>
+									{blog.name[lang]}
+									<span class="text-ink-muted">{t("blog.closed")}</span>
+								</span>
+							)}
+							{blog.note && (
+								<span class="text-ink-muted">{blog.note[lang]}</span>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<section>
+			<h2 class="section-heading">{t("blog.posts")}</h2>
+			{
+				posts.length > 0 ? (
+					<EntryList items={posts} />
+				) : (
+					<p class="text-ink-muted">{t("top.postsUnavailable")}</p>
+				)
+			}
+		</section>
+	</div>
 </Layout>

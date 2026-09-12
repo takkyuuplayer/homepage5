@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+import blogger from "../assets/blog/blogger.png";
+import Hatena from "../assets/blog/hatena.svg";
+import Medium from "../assets/blog/medium.svg";
+import { blogs, type BlogSource } from "../data/blogs";
+import { resolveLang } from "../i18n/utils";
+
+interface Props {
+	source: BlogSource;
+	class?: string;
+}
+
+const { source, class: className } = Astro.props;
+
+const lang = resolveLang(Astro.currentLocale);
+
+// 読み上げにはブログの名前を使う。データ側に名前があるので i18n キーは持たない。
+const name = blogs.find((blog) => blog.id === source)?.name[lang] ?? source;
+
+// 表示は 24px。はてなブログのガイドラインがアイコン単体の最小サイズを Web で
+// 24px と定めているため、これより小さくしない。
+const size = 24;
+
+// 出典を伝える唯一の手段なので装飾ではない。画像に名前を付け、ExternalLink の
+// open_in_new（aria-hidden）とは扱いを分ける。HTML コメントにすると記事ごとに
+// 出力へ複製されるため、frontmatter に置く。
+// はてなブログは公式 SVG の白抜き版（ガイドラインが暗い背景で認める #FFFFFF）、
+// Medium は公式配布の白アイコン。Blogger は公式のロゴ配布が無いため、
+// blogger.com が配る apple-touch-icon（PNG）をそのまま使う。
+---
+
+{
+	source === "blogger" ? (
+		<Image
+			src={blogger}
+			alt={name}
+			height={size}
+			densities={[1, 2]}
+			class={className}
+		/>
+	) : source === "hatena" ? (
+		<Hatena role="img" aria-label={name} class={className} />
+	) : (
+		<Medium role="img" aria-label={name} class={className} />
+	)
+}
