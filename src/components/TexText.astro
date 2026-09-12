@@ -1,5 +1,5 @@
 ---
-import { renderMath, splitTex } from "../lib/tex";
+import { parseTex, renderMath } from "../lib/tex";
 
 interface Props {
 	// LaTeX。数式は $…$ / $$…$$ / align*、段落は改行文字で区切る。
@@ -9,39 +9,12 @@ interface Props {
 
 const { tex, class: className } = Astro.props;
 
-type Inline = { kind: "text"; value: string } | { kind: "math"; html: string };
-type Block =
-	{ kind: "paragraph"; inlines: Inline[] } | { kind: "display"; html: string };
-
-// 数式の変換はビルド時にここで一度だけ走る。text 断片は Astro のエスケープを
-// 通し、set:html を使うのは Temml が出した MathML だけに限る。
-//
-// display の数式は折り返せず、狭い画面では横にはみ出す。<p> の中に置いて
-// overflow-x を付けると overflow-y も auto になり、行ボックスと <math> の高さの
-// ずれで縦のスクロールバーが出るため、段落から出して単独のブロックにする。
-const blocks: Block[] = [];
-for (const paragraph of tex.split("\n")) {
-	let inlines: Inline[] = [];
-	const flush = () => {
-		if (
-			inlines.some((inline) => inline.kind === "math" || inline.value.trim())
-		) {
-			blocks.push({ kind: "paragraph", inlines });
-		}
-		inlines = [];
-	};
-	for (const segment of splitTex(paragraph)) {
-		if (segment.kind === "text") {
-			inlines.push(segment);
-		} else if (segment.display) {
-			flush();
-			blocks.push({ kind: "display", html: renderMath(segment.value, true) });
-		} else {
-			inlines.push({ kind: "math", html: renderMath(segment.value, false) });
-		}
-	}
-	flush();
-}
+// text 断片は Astro のエスケープを通し、set:html を使うのは Temml が出した MathML
+// だけに限る。display の数式を <p> に入れて overflow-x を付けると overflow-y も
+// auto になり、行ボックスと <math> の高さのずれで縦のスクロールバーが出るため、
+// 単独の div を横スクロールの入れ物にする。
+// テンプレート側の HTML コメントは出力に残り、問題ごとに繰り返されるのでここに書く。
+const blocks = parseTex(tex);
 ---
 
 {
@@ -49,15 +22,15 @@ for (const paragraph of tex.split("\n")) {
 		block.kind === "display" ? (
 			<div
 				class:list={[className, "overflow-x-auto overflow-y-hidden"]}
-				set:html={block.html}
+				set:html={renderMath(block.value, true)}
 			/>
 		) : (
 			<p class={className}>
-				{block.inlines.map((inline) =>
-					inline.kind === "math" ? (
-						<Fragment set:html={inline.html} />
+				{block.segments.map((segment) =>
+					segment.kind === "math" ? (
+						<Fragment set:html={renderMath(segment.value, false)} />
 					) : (
-						inline.value
+						segment.value
 					),
 				)}
 			</p>

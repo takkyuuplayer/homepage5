@@ -79,6 +79,37 @@ export function splitTex(source: string): TexSegment[] {
 	return segments;
 }
 
+export type TexBlock =
+	| { kind: "paragraph"; segments: TexSegment[] }
+	| { kind: "display"; value: string };
+
+// 段落は改行文字で区切る。display の数式は折り返せず、狭い画面では横にはみ出すので
+// <p> に入れず単独のブロックとして返す。入れ物の作り方は表示側が決める。
+export function parseTex(source: string): TexBlock[] {
+	const blocks: TexBlock[] = [];
+	for (const paragraph of source.split("\n")) {
+		let segments: TexSegment[] = [];
+		const flush = () => {
+			// display の前後に残った空白だけの断片は段落にしない。
+			const hasContent = segments.some(
+				(segment) => segment.kind === "math" || segment.value.trim() !== "",
+			);
+			if (hasContent) blocks.push({ kind: "paragraph", segments });
+			segments = [];
+		};
+		for (const segment of splitTex(paragraph)) {
+			if (segment.kind === "math" && segment.display) {
+				flush();
+				blocks.push({ kind: "display", value: segment.value });
+			} else {
+				segments.push(segment);
+			}
+		}
+		flush();
+	}
+	return blocks;
+}
+
 // MathML だけを出す。ブラウザがネイティブに描くので、クライアントに JS や CSS は
 // 配らない。annotation に元の TeX を残すのは、コピーや支援技術のため。
 // 変換できない LaTeX はビルドで止める（throwOnError）。

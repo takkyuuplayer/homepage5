@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderMath, splitTex } from "./tex";
+import { parseTex, renderMath, splitTex } from "./tex";
 
 describe("splitTex", () => {
 	it("should return plain text as a single segment", () => {
@@ -89,6 +89,50 @@ describe("splitTex", () => {
 		expect(() => splitTex(String.raw`\begin{align*}a&=b`)).toThrow(
 			String.raw`\begin{align*} が閉じられていません`,
 		);
+	});
+});
+
+describe("parseTex", () => {
+	it("should make one paragraph per line", () => {
+		expect(parseTex("一行目\n二行目$x$")).toEqual([
+			{ kind: "paragraph", segments: [{ kind: "text", value: "一行目" }] },
+			{
+				kind: "paragraph",
+				segments: [
+					{ kind: "text", value: "二行目" },
+					{ kind: "math", value: "x", display: false },
+				],
+			},
+		]);
+	});
+
+	// 問 8・15 の形。文の後ろに続く display の数式は段落から出す。
+	it("should pull display math out of the paragraph", () => {
+		expect(parseTex("解を求めよ. $$x=1$$")).toEqual([
+			{
+				kind: "paragraph",
+				segments: [{ kind: "text", value: "解を求めよ. " }],
+			},
+			{ kind: "display", value: "x=1" },
+		]);
+	});
+
+	// 問 3・4 の形。display の後ろに続く文は新しい段落になる。
+	it("should start a new paragraph after display math", () => {
+		expect(
+			parseTex(String.raw`このとき \begin{align*}a&=b\end{align*} が成り立つ.`),
+		).toEqual([
+			{ kind: "paragraph", segments: [{ kind: "text", value: "このとき " }] },
+			{ kind: "display", value: String.raw`\begin{align*}a&=b\end{align*}` },
+			{
+				kind: "paragraph",
+				segments: [{ kind: "text", value: " が成り立つ." }],
+			},
+		]);
+	});
+
+	it("should drop paragraphs that hold only whitespace", () => {
+		expect(parseTex("$$a$$ ")).toEqual([{ kind: "display", value: "a" }]);
 	});
 });
 
