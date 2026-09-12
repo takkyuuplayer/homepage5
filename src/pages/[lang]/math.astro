@@ -10,8 +10,7 @@ export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 const lang = resolveLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
-// PDF は src/assets に置き、Vite にハッシュ付きの URL を付けさせる。glob に無い
-// ファイルを参照したらビルドで止める。
+// PDF は src/assets に置き、Vite にハッシュ付きの URL を付けさせる。
 const pdfUrls = import.meta.glob<string>("../../assets/math/*.pdf", {
 	eager: true,
 	query: "?url",
@@ -26,6 +25,9 @@ function pdfUrl(file: string): string {
 	return url;
 }
 
+// 問題文は日本語のみなので、英語ページでも同じ内容を出す（見出しに注記あり）。
+// 番号は見出しの文字列として書く。ol の自動番号は list-style を消すと読み上げから
+// 消えるブラウザがあるため使わない。
 function answerUrl(problem: Problem): string | undefined {
 	const file = answerFile(problem);
 	return file === undefined ? undefined : pdfUrl(file);
@@ -36,9 +38,6 @@ function answerUrl(problem: Problem): string | undefined {
 	<h1 class="page-heading">{t("nav.math")}</h1>
 
 	<div class="mt-8 space-y-12">
-		<!-- 問題文は日本語のみなので、英語ページでも同じ内容を出す（見出しに注記あり）。
-		     番号は画像ではなく見出しの文字列として書く。ol の自動番号は list-style を
-		     消すと読み上げからも消えるブラウザがあるため使わない。 -->
 		<section>
 			<h2 class="section-heading">{t("math.kingdom")}</h2>
 			<p>{t("math.kingdom.message")}</p>

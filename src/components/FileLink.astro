@@ -6,11 +6,11 @@ interface Props {
 	class?: string;
 }
 
+// 印は margin ではなく空白文字で離す。下線は空白には付くが margin には付かず、
+// 空白が無いと読み上げが「答えPDF」と一語になる。
 const { href, format, class: className } = Astro.props;
 ---
 
-<!-- 印は margin ではなく空白文字で離す。下線は空白には付くが margin には付かず、
-     空白が無いと読み上げが「答えPDF」と一語になる。 -->
 <a href={href} class:list={["link", className]}>
 	<slot />
 	{" "}

@@ -1,7 +1,5 @@
 import temml from "temml";
 
-// 問題文は「日本語の文章 + $…$ の数式」が混ざった LaTeX の文字列で持つ。表示側は
-// text 断片をそのまま出し、math 断片だけを MathML に変換する。
 export type TexSegment =
 	| { kind: "text"; value: string }
 	| { kind: "math"; value: string; display: boolean };
@@ -83,14 +81,13 @@ export type TexBlock =
 	| { kind: "paragraph"; segments: TexSegment[] }
 	| { kind: "display"; value: string };
 
-// 段落は改行文字で区切る。display の数式は折り返せず、狭い画面では横にはみ出すので
-// <p> に入れず単独のブロックとして返す。入れ物の作り方は表示側が決める。
+// display の数式は折り返せず、狭い画面では横にはみ出すので、<p> に入れず単独の
+// ブロックとして返す。入れ物の作り方は表示側が決める。
 export function parseTex(source: string): TexBlock[] {
 	const blocks: TexBlock[] = [];
 	for (const paragraph of source.split("\n")) {
 		let segments: TexSegment[] = [];
 		const flush = () => {
-			// display の前後に残った空白だけの断片は段落にしない。
 			const hasContent = segments.some(
 				(segment) => segment.kind === "math" || segment.value.trim() !== "",
 			);

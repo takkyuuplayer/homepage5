@@ -1,16 +1,14 @@
 import type { Lang } from "../i18n/ui";
 
 export type Problem = {
-	// 1 から始まる連番。解答 PDF の ans{NN}.pdf と対応する。
 	number: number;
 	topic: Record<Lang, string>;
-	// LaTeX。数式は $…$ / $$…$$ / align* で囲む。段落は改行文字で区切る。
+	// LaTeX。段落は改行文字で区切る。
 	statement: string;
 	// 問 14 は解答が誤りだったため取りやめになっていて、PDF も注記だけ。
 	withdrawn?: true;
 };
 
-// 解答 PDF の名前（拡張子なし）。取りやめの問には無い。
 export function answerFile(problem: Problem): string | undefined {
 	if (problem.withdrawn) return undefined;
 	return `ans${String(problem.number).padStart(2, "0")}`;
@@ -19,11 +17,10 @@ export function answerFile(problem: Problem): string | undefined {
 export type Lecture = {
 	// 講義プリントは日本語のみなので、タイトルも翻訳しない。
 	title: string;
-	// src/assets/math/{file}.pdf
 	file: string;
 };
 
-// 分野は 10 種類。見出し「問題 N. 分野」の分野だけを翻訳する。
+// 問題文は日本語のみだが、見出し「問題 N. 分野」の分野だけは翻訳する。
 const topics = {
 	planeGeometry: { ja: "平面幾何", en: "Plane geometry" },
 	expressions: { ja: "数式", en: "Expressions" },

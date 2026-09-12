@@ -2,18 +2,16 @@
 import { parseTex, renderMath } from "../lib/tex";
 
 interface Props {
-	// LaTeX。数式は $…$ / $$…$$ / align*、段落は改行文字で区切る。
 	tex: string;
 	class?: string;
 }
 
 const { tex, class: className } = Astro.props;
 
-// text 断片は Astro のエスケープを通し、set:html を使うのは Temml が出した MathML
-// だけに限る。display の数式を <p> に入れて overflow-x を付けると overflow-y も
-// auto になり、行ボックスと <math> の高さのずれで縦のスクロールバーが出るため、
-// 単独の div を横スクロールの入れ物にする。
-// テンプレート側の HTML コメントは出力に残り、問題ごとに繰り返されるのでここに書く。
+// text 断片は Astro のエスケープを通し、set:html は Temml が出した MathML にだけ使う。
+// display の数式を <p> に入れて overflow-x を付けると overflow-y も auto になり、
+// 行ボックスと <math> の高さのずれで縦のスクロールバーが出るため、単独の div を
+// 横スクロールの入れ物にする。
 const blocks = parseTex(tex);
 ---
 
