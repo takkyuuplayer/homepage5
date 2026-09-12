@@ -46,8 +46,7 @@ const rows = items.map((app) => ({ app, meta: metaParts(app) }));
 						<ExternalLink href={app.url}>{app.title}</ExternalLink>
 					) : (
 						<a href={app.url} class="link">
-							{app.title}
-							<span class="ml-1 text-sm">ZIP</span>
+							{app.title} <span class="text-sm">ZIP</span>
 						</a>
 					)}
 				</div>

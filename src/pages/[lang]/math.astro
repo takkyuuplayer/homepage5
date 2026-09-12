@@ -59,8 +59,7 @@ const lectureRows = lectures.map((lecture) => ({
 							{answerUrl && (
 								<p class="mt-2">
 									<a href={answerUrl} class="link">
-										{t("math.answer")}
-										<span class="ml-1 text-sm">PDF</span>
+										{t("math.answer")} <span class="text-sm">PDF</span>
 									</a>
 								</p>
 							)}
@@ -77,8 +76,7 @@ const lectureRows = lectures.map((lecture) => ({
 					lectureRows.map(({ lecture, url }) => (
 						<li>
 							<a href={url} class="link">
-								{lecture.title}
-								<span class="ml-1 text-sm">PDF</span>
+								{lecture.title} <span class="text-sm">PDF</span>
 							</a>
 						</li>
 					))
