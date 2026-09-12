@@ -8,6 +8,7 @@ export const ui = {
 		"site.author": "卓球Player",
 		"logo.alt": "ロゴ",
 		"link.newTab": "（新しいタブで開く）",
+		"service.closed": "（サービス終了）",
 		"nav.language": "言語",
 		"nav.languageSwitch": "言語を切り替える",
 		"nav.home": "ホーム",
@@ -26,7 +27,6 @@ export const ui = {
 		"top.olderHistory": "古い記録を見る",
 		"blog.lead":
 			"時期によって書く場所を変えてきました。どこに書いた記事も、ここに新しい順で並べています。",
-		"blog.closed": "（サービス終了）",
 		"blog.posts": "記事",
 		"blog.description":
 			"卓球Playerがこれまでに書いたブログ記事の一覧。はてなブログ、Blogger、Medium の記事をまとめています。",
@@ -51,6 +51,7 @@ export const ui = {
 		"site.author": "takkyuuplayer",
 		"logo.alt": "Logo",
 		"link.newTab": "(opens in a new tab)",
+		"service.closed": "(service closed)",
 		"nav.language": "Language",
 		"nav.languageSwitch": "Switch language",
 		"nav.home": "Home",
@@ -69,7 +70,6 @@ export const ui = {
 		"top.olderHistory": "Show older records",
 		"blog.lead":
 			"I have moved between platforms over the years. Posts from all of them are listed here, newest first. Most of them are in Japanese.",
-		"blog.closed": "(service closed)",
 		"blog.posts": "Posts",
 		"blog.description":
 			"Every blog post by takkyuuplayer so far, collected from Hatena Blog, Blogger and Medium.",
