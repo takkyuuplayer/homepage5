@@ -1,4 +1,5 @@
 ---
+import BlogIcon from "./BlogIcon.astro";
 import ExternalLink from "./ExternalLink.astro";
 import { resolveLang } from "../i18n/utils";
 import { formatDate, toDateString } from "../lib/date";
@@ -23,6 +24,10 @@ const lang = resolveLang(Astro.currentLocale);
 				>
 					{formatDate(item.publishedAt, lang)}
 				</time>
+				{/* 行の高さ（1.5rem）と同じ 24px なので、折り返しても 1 行目に揃う。 */}
+				{item.source && (
+					<BlogIcon source={item.source} class="block h-6 w-6 shrink-0" />
+				)}
 				{item.url ? (
 					<ExternalLink href={item.url}>{item.title}</ExternalLink>
 				) : (
