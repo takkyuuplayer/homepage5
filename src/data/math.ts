@@ -1,15 +1,5 @@
 import type { Lang } from "../i18n/ui";
 
-// homepage4.0 の math ページを移植したもの。問題文の出典は当時の TeX 原稿
-// （数学王国.tex の \begin{barred}[分野]{prob} … \end{barred}）、講義は数学教室.tex の
-// \section。移植元の toi*.png はこの TeX から作られた画像だった。
-//
-// 原稿からの変更は次の 4 箇所だけ。半角の「, 」「. 」は当時の文体として残す。
-// - 問 11: エディタの残骸 \textrm{\textsl{, }} を「, 」に
-// - 問 13: \mbox{\boldmath{$S$}} を $\mathbf{S}$ に（Temml が \mbox 非対応）
-// - 問 10: 明示の改行 \\ を段落の区切り（改行文字）に
-// - 問 14: 半角の閉じ括弧「｣」を「」」に
-
 export type Problem = {
 	// 1 から始まる連番。解答 PDF の ans{NN}.pdf と対応する。
 	number: number;
