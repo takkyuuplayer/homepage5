@@ -1,12 +1,51 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import ExternalLink from "../../components/ExternalLink.astro";
+import { hosts } from "../../data/hosting";
 import { resolveLang, useTranslations } from "../../i18n/utils";
+import Layout from "../../layouts/Layout.astro";
 
 export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 
 const t = useTranslations(resolveLang(Astro.currentLocale));
 ---
 
-<Layout title={t("nav.about")}>
+<Layout title={t("nav.about")} description={t("about.description")}>
 	<h1 class="page-heading">{t("nav.about")}</h1>
+
+	<div class="mt-8 space-y-4">
+		<p>{t("about.message1")}</p>
+		<!-- 段落 1 の途中で移転履歴に入り、段落 2 で文に戻る構造は移植元のまま。
+		     移転の順番そのものが内容なので ol で持つ。 -->
+		<ol
+			aria-label={t("about.hosts")}
+			class="bg-surface-raised flex flex-wrap justify-center gap-x-2 gap-y-1 rounded-md px-4 py-3"
+		>
+			{
+				hosts.map((host) => (
+					<li>
+						{host.closed ? (
+							<span>
+								{host.name}
+								<span class="text-ink-muted">{t("service.closed")}</span>
+							</span>
+						) : (
+							<ExternalLink href={host.url}>{host.name}</ExternalLink>
+						)}
+					</li>
+				))
+			}
+		</ol>
+		<p>{t("about.message2")}</p>
+		<p>{t("about.message3")}</p>
+	</div>
 </Layout>
+
+<style>
+	/* 矢印は目で見る読者向けの装飾。代替テキストを空にして読み上げから外す
+	   （CSS Generated Content Level 3 の content の "/" 以降）。未対応の
+	   ブラウザでは宣言ごと無効になり、項目が間隔だけで並ぶ。 */
+	li + li::before {
+		content: "→" / "";
+		margin-inline-end: 0.5rem;
+	}
+</style>
