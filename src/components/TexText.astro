@@ -1,0 +1,38 @@
+---
+import { renderMath, splitTex } from "../lib/tex";
+
+interface Props {
+	// LaTeX。数式は $…$ / $$…$$ / align*、段落は改行文字で区切る。
+	tex: string;
+	class?: string;
+}
+
+const { tex, class: className } = Astro.props;
+
+// 数式の変換はビルド時にここで一度だけ走る。text 断片は Astro のエスケープを
+// 通し、set:html を使うのは Temml が出した MathML だけに限る。
+const paragraphs = tex.split("\n").map((paragraph) =>
+	splitTex(paragraph).map((segment) =>
+		segment.kind === "math"
+			? {
+					kind: "math" as const,
+					html: renderMath(segment.value, segment.display),
+				}
+			: segment,
+	),
+);
+---
+
+{
+	paragraphs.map((segments) => (
+		<p class={className}>
+			{segments.map((segment) =>
+				segment.kind === "math" ? (
+					<Fragment set:html={segment.html} />
+				) : (
+					segment.value
+				),
+			)}
+		</p>
+	))
+}
