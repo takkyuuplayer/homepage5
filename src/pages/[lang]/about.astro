@@ -40,29 +40,29 @@ function linkUrl(host: Host): string {
 </Layout>
 
 <style>
-	/* theme() と --spacing() をこのスコープ付き CSS から使うための参照。CSS は出力されない。 */
+	/* @variant sm と --spacing() をこのスコープ付き CSS から使うための参照。
+	   テーマだけを参照し、CSS は出力されない。 */
 	@reference "../../styles/global.css";
 
 	/* sm 未満は縦 1 列。2 行目以降の頭に ↓ を置き、先頭行は同じ幅の空白で揃える。
 	   sm 以上は横並びで項目の間に →。矢印は目で見る読者向けの装飾なので、代替
 	   テキストを空にして読み上げから外す（CSS Generated Content Level 3 §1.2）。
-	   未対応のブラウザでは宣言ごと無効になり、項目が間隔だけで並ぶ。 */
+	   未対応のブラウザでは宣言ごと無効になり、項目が間隔だけで並ぶ。
+	   ブレークポイントは ol の sm: と同じものを @variant で使い、40rem を直書きしない。 */
 	li::before {
 		content: "" / "";
 		display: inline-block;
 		width: 1.5em;
+
+		@variant sm {
+			content: none;
+		}
 	}
 
 	li + li::before {
 		content: "↓" / "";
-	}
 
-	@media (width >= theme(--breakpoint-sm)) {
-		li::before {
-			content: none;
-		}
-
-		li + li::before {
+		@variant sm {
 			content: "→" / "";
 			display: inline;
 			width: auto;
