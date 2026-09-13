@@ -71,10 +71,9 @@ export const hosts: readonly Host[] = [
 	{
 		name: "000webhost",
 		url: "http://takkyuuplayer.netau.net/",
-		// 運営元 Hostinger が 2024 年に終了。日本語の記事が無く、公式告知も
-		// 残っていないため、同業 InfinityFree のフォーラムの解説記事に飛ばす。
+		// 運営元 Hostinger が 2024 年 7 月 8 日に終了。Hostinger 自身の告知に飛ばす。
 		closed: {
-			url: "https://forum.infinityfree.com/t/000webhost-shutting-down-what-it-means-for-free-hosting/97238",
+			url: "https://www.hostinger.com/blog/000webhost-closes/",
 			year: 2024,
 		},
 	},
