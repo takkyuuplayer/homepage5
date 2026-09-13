@@ -7,6 +7,10 @@ import Layout from "../../layouts/Layout.astro";
 export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 
 const t = useTranslations(resolveLang(Astro.currentLocale));
+
+function closedIn(year: number): string {
+	return t("service.closedIn").replace("{year}", String(year));
+}
 ---
 
 <Layout title={t("nav.about")} description={t("about.description")}>
@@ -25,8 +29,8 @@ const t = useTranslations(resolveLang(Astro.currentLocale));
 					<li>
 						{host.closed ? (
 							<>
-								{host.name}
-								<span class="text-ink-muted">{t("service.closed")}</span>
+								<ExternalLink href={host.closed.url}>{host.name}</ExternalLink>
+								<span class="text-ink-muted">{closedIn(host.closed.year)}</span>
 							</>
 						) : (
 							<ExternalLink href={host.url}>{host.name}</ExternalLink>
