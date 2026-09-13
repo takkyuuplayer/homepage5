@@ -13,17 +13,17 @@ function linkUrl(host: Host): string {
 }
 ---
 
-<Layout title={t("nav.about")} description={t("about.description")}>
-	<h1 class="page-heading">{t("nav.about")}</h1>
+<Layout title={t("nav.welcome")} description={t("welcome.description")}>
+	<h1 class="page-heading">{t("nav.welcome")}</h1>
 
 	<div class="mt-8 space-y-4">
-		<p>{t("about.beforeHosts")}</p>
+		<p>{t("welcome.beforeHosts")}</p>
 		<!-- 段落 1 の途中で移転履歴に入り、段落 2 で文に戻る構造は移植元のまま。
 		     移転の順番そのものが内容なので ol で持つ。終了したサービスは注記を付けず、
 		     リンク先を終了の説明ページに替えるだけにする（飛べば分かる）。
 		     sm 未満は縦 1 列、sm 以上は横並び。矢印は下の style で出す。 -->
 		<ol
-			aria-label={t("about.hosts")}
+			aria-label={t("welcome.hosts")}
 			class="bg-surface-raised flex flex-col gap-y-1 rounded-md px-4 py-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-2"
 		>
 			{
@@ -34,8 +34,8 @@ function linkUrl(host: Host): string {
 				))
 			}
 		</ol>
-		<p>{t("about.afterHosts")}</p>
-		<p>{t("about.closing")}</p>
+		<p>{t("welcome.afterHosts")}</p>
+		<p>{t("welcome.closing")}</p>
 	</div>
 </Layout>
 
