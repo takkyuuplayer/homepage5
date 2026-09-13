@@ -1,12 +1,16 @@
 ---
 import ExternalLink from "../../components/ExternalLink.astro";
-import { hosts } from "../../data/hosting";
+import { hosts, type Host } from "../../data/hosting";
 import { resolveLang, useTranslations } from "../../i18n/utils";
 import Layout from "../../layouts/Layout.astro";
 
 export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
 
 const t = useTranslations(resolveLang(Astro.currentLocale));
+
+function linkUrl(host: Host): string {
+	return host.closed?.url ?? host.url;
+}
 ---
 
 <Layout title={t("nav.about")} description={t("about.description")}>
@@ -15,7 +19,8 @@ const t = useTranslations(resolveLang(Astro.currentLocale));
 	<div class="mt-8 space-y-4">
 		<p>{t("about.beforeHosts")}</p>
 		<!-- 段落 1 の途中で移転履歴に入り、段落 2 で文に戻る構造は移植元のまま。
-		     移転の順番そのものが内容なので ol で持つ。 -->
+		     移転の順番そのものが内容なので ol で持つ。終了したサービスは注記を付けず、
+		     リンク先を終了の説明ページに替えるだけにする（飛べば分かる）。 -->
 		<ol
 			aria-label={t("about.hosts")}
 			class="bg-surface-raised flex flex-wrap justify-center gap-x-2 gap-y-1 rounded-md px-4 py-3"
@@ -23,14 +28,7 @@ const t = useTranslations(resolveLang(Astro.currentLocale));
 			{
 				hosts.map((host) => (
 					<li>
-						{host.closed ? (
-							<>
-								<ExternalLink href={host.closed.url}>{host.name}</ExternalLink>
-								<span class="text-ink-muted">{t("service.closed")}</span>
-							</>
-						) : (
-							<ExternalLink href={host.url}>{host.name}</ExternalLink>
-						)}
+						<ExternalLink href={linkUrl(host)}>{host.name}</ExternalLink>
 					</li>
 				))
 			}

@@ -13,10 +13,10 @@ export type Closure = {
 export type Host = {
 	// 移植元は "Yahoo" "Infoseek" と書いていたが、終了したのは Yahoo! JAPAN の
 	// ジオシティーズと楽天の infoseek isweb で、Yahoo や Infoseek 自体ではない。
-	// 「サービス終了」と添える以上、終了したサービスの名前で書く。
+	// リンク先が終了の説明ページになる以上、終了したサービスの名前で書く。
 	name: string;
 	// 終了したサービスも、当時どこに置いていたかの記録として url を残す。
-	// 表示側は closed のものでは url ではなく closed.url にリンクする。
+	// 表示側は closed のものでは url ではなく closed.url にリンクし、注記は付けない。
 	url: string;
 	// 現役のホストは closed を持たない。false を書かせず、「現役」の表し方を 1 つにする。
 	closed?: Closure;
