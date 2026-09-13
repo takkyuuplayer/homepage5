@@ -3,12 +3,11 @@
 // 移植元に利用期間の記録は無く、ここでも持たない。一部にだけ年を付けると、
 // 付いていないものが「不明」なのか「省略」なのか読者に伝わらないため。
 
-// 終了したサービスについて、いつ終わったかと、それを説明するページ。
-// 公式告知 > そのサービス単独の記事 > 一覧記事の順で、実際に終了を述べている
-// ページを選ぶ。
+// 終了したサービスについて、終了を説明するページ。公式告知 > そのサービス単独の
+// 記事 > 一覧記事の順で、実際に終了を述べているページを選ぶ。終了年はコメントに
+// 残すだけで表示しない。
 export type Closure = {
 	url: string;
-	year: number;
 };
 
 export type Host = {
@@ -35,7 +34,6 @@ export const hosts: readonly Host[] = [
 		// ページ自体が開けないので Wikipedia の記事に飛ばす。
 		closed: {
 			url: "https://ja.wikipedia.org/wiki/ジオシティーズ",
-			year: 2019,
 		},
 	},
 	{
@@ -45,7 +43,6 @@ export const hosts: readonly Host[] = [
 		// ベーシックは 2012 年まで続いたが、こちらは使っていない。
 		closed: {
 			url: "https://ja.wikipedia.org/wiki/Infoseek_isweb",
-			year: 2010,
 		},
 	},
 	{
@@ -55,7 +52,6 @@ export const hosts: readonly Host[] = [
 		// 運営元 FC2 の告知記事に飛ばす。
 		closed: {
 			url: "https://fc2information.blog.fc2.com/blog-entry-2322.html",
-			year: 2026,
 		},
 	},
 	{
@@ -65,7 +61,6 @@ export const hosts: readonly Host[] = [
 		// 「@PAGES（有限会社アットフリークス）（2018年）」の記載だけが根拠。
 		closed: {
 			url: "https://ja.wikipedia.org/wiki/ホスティングサーバ#終了した日本の主なホスティングサービス",
-			year: 2018,
 		},
 	},
 	{
@@ -74,7 +69,6 @@ export const hosts: readonly Host[] = [
 		// 運営元 Hostinger が 2024 年 7 月 8 日に終了。Hostinger 自身の告知に飛ばす。
 		closed: {
 			url: "https://www.hostinger.com/blog/000webhost-closes/",
-			year: 2024,
 		},
 	},
 	{

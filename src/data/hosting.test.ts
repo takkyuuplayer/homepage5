@@ -45,17 +45,4 @@ describe("hosts", () => {
 			}
 		}
 	});
-
-	// このサイトは 2004 年に始まった（history.ts の最古の記録）。それより前に
-	// 終わったサービスに置いていたはずがなく、未来の年は書き間違い。
-	it("should have a closing year between the site's start and today", () => {
-		const thisYear = new Date().getFullYear();
-
-		for (const host of hosts) {
-			if (host.closed) {
-				expect(host.closed.year, host.name).toBeGreaterThanOrEqual(2004);
-				expect(host.closed.year, host.name).toBeLessThanOrEqual(thisYear);
-			}
-		}
-	});
 });
