@@ -19,10 +19,11 @@ function closedIn(year: number): string {
 	<div class="mt-8 space-y-4">
 		<p>{t("about.beforeHosts")}</p>
 		<!-- 段落 1 の途中で移転履歴に入り、段落 2 で文に戻る構造は移植元のまま。
-		     移転の順番そのものが内容なので ol で持つ。 -->
+		     移植元は a → a → a と横に並べていたが、名前・アイコン・終了年が並ぶと
+		     区切りが追いにくいので 1 行 1 件にし、移転の順番は ol の番号で示す。 -->
 		<ol
 			aria-label={t("about.hosts")}
-			class="bg-surface-raised flex flex-wrap justify-center gap-x-2 gap-y-1 rounded-md px-4 py-3"
+			class="bg-surface-raised list-inside list-decimal space-y-1 rounded-md px-4 py-3"
 		>
 			{
 				hosts.map((host) => (
@@ -43,13 +44,3 @@ function closedIn(year: number): string {
 		<p>{t("about.closing")}</p>
 	</div>
 </Layout>
-
-<style>
-	/* 矢印は目で見る読者向けの装飾。代替テキストを空にして読み上げから外す
-	   （CSS Generated Content Level 3 の content の "/" 以降）。未対応の
-	   ブラウザでは宣言ごと無効になり、項目が間隔だけで並ぶ。 */
-	li + li::before {
-		content: "→" / "";
-		margin-inline-end: 0.5rem;
-	}
-</style>
