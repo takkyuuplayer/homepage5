@@ -1,0 +1,72 @@
+---
+import ExternalLink from "../../components/ExternalLink.astro";
+import { hosts, type Host } from "../../data/hosting";
+import { resolveLang, useTranslations } from "../../i18n/utils";
+import Layout from "../../layouts/Layout.astro";
+
+export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
+
+const t = useTranslations(resolveLang(Astro.currentLocale));
+
+function linkUrl(host: Host): string {
+	return host.closed?.url ?? host.url;
+}
+---
+
+<Layout title={t("nav.welcome")} description={t("welcome.description")}>
+	<h1 class="page-heading">{t("nav.welcome")}</h1>
+
+	<div class="mt-8 space-y-4">
+		<p>{t("welcome.beforeHosts")}</p>
+		<!-- 段落 1 の途中で移転履歴に入り、段落 2 で文に戻る構造は移植元のまま。
+		     移転の順番そのものが内容なので ol で持つ。終了したサービスは注記を付けず、
+		     リンク先を終了の説明ページに替えるだけにする（飛べば分かる）。
+		     sm 未満は縦 1 列、sm 以上は横並び。矢印は下の style で出す。 -->
+		<ol
+			aria-label={t("welcome.hosts")}
+			class="bg-surface-raised flex flex-col gap-y-1 rounded-md px-4 py-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-2"
+		>
+			{
+				hosts.map((host) => (
+					<li>
+						<ExternalLink href={linkUrl(host)}>{host.name}</ExternalLink>
+					</li>
+				))
+			}
+		</ol>
+		<p>{t("welcome.afterHosts")}</p>
+		<p>{t("welcome.closing")}</p>
+	</div>
+</Layout>
+
+<style>
+	/* @variant sm と --spacing() をこのスコープ付き CSS から使うための参照。
+	   テーマだけを参照し、CSS は出力されない。 */
+	@reference "../../styles/global.css";
+
+	/* 2 件目以降の前に → を置く。矢印の意味は「次へ移った」で画面の向きではないので、
+	   縦並びでも → のまま。sm 未満は縦 1 列で行頭に置き、先頭行は同じ幅の空白で揃える。
+	   sm 以上は横並びで項目の間に置く。矢印は目で見る読者向けの装飾なので、代替
+	   テキストを空にして読み上げから外す（CSS Generated Content Level 3 §1.2）。
+	   未対応のブラウザでは宣言ごと無効になり、項目が間隔だけで並ぶ。
+	   ブレークポイントは ol の sm: と同じものを @variant で使い、40rem を直書きしない。 */
+	li::before {
+		content: "" / "";
+		display: inline-block;
+		width: 1.5em;
+
+		@variant sm {
+			content: none;
+		}
+	}
+
+	li + li::before {
+		content: "→" / "";
+
+		@variant sm {
+			display: inline;
+			width: auto;
+			margin-inline-end: --spacing(2);
+		}
+	}
+</style>

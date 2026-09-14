@@ -8,6 +8,7 @@ export const ui = {
 		"site.author": "卓球Player",
 		"logo.alt": "ロゴ",
 		"link.newTab": "（新しいタブで開く）",
+		"service.closed": "（サービス終了）",
 		"nav.language": "言語",
 		"nav.languageSwitch": "言語を切り替える",
 		"nav.home": "ホーム",
@@ -17,7 +18,7 @@ export const ui = {
 		"nav.apps": "アプリ",
 		"nav.math": "数学",
 		"nav.blog": "ブログ",
-		"nav.about": "ご挨拶",
+		"nav.welcome": "ご挨拶",
 		"footer.social": "ソーシャルリンク",
 		"top.latestPosts": "最新の記事",
 		"top.allPosts": "ブログをすべて見る",
@@ -26,7 +27,6 @@ export const ui = {
 		"top.olderHistory": "古い記録を見る",
 		"blog.lead":
 			"時期によって書く場所を変えてきました。どこに書いた記事も、ここに新しい順で並べています。",
-		"blog.closed": "（サービス終了）",
 		"blog.posts": "記事",
 		"blog.description":
 			"卓球Playerがこれまでに書いたブログ記事の一覧。はてなブログ、Blogger、Medium の記事をまとめています。",
@@ -43,6 +43,14 @@ export const ui = {
 		"math.answer": "答え",
 		"math.description":
 			"学生時代に作った数学の問題と、その解答・講義プリント。",
+		"welcome.beforeHosts": "高校からずーーっと更新し続けています。サーバーを",
+		"welcome.hosts": "サーバーの移り変わり",
+		"welcome.afterHosts":
+			"と移動してきました。私のプログラムスキルの発展はこのホームページと共にあったと言ってよいです。",
+		"welcome.closing":
+			"職業としてのWEBエンジニアを選んで以来、あまり自身のホームページの事は気にかけなくなりました。とはいえ不意に昔作ったコンテンツを見返しては、懐かしい思い出に耽っています。",
+		"welcome.description":
+			"卓球Playerからのご挨拶。高校生のころから続けてきたこのホームページの来歴と、置いてきたサーバーの移り変わり。",
 	},
 	en: {
 		"site.title": "takkyuuplayer's playground",
@@ -51,6 +59,7 @@ export const ui = {
 		"site.author": "takkyuuplayer",
 		"logo.alt": "Logo",
 		"link.newTab": "(opens in a new tab)",
+		"service.closed": "(service closed)",
 		"nav.language": "Language",
 		"nav.languageSwitch": "Switch language",
 		"nav.home": "Home",
@@ -60,7 +69,7 @@ export const ui = {
 		"nav.apps": "Apps",
 		"nav.math": "Math",
 		"nav.blog": "Blog",
-		"nav.about": "About",
+		"nav.welcome": "Welcome",
 		"footer.social": "Social links",
 		"top.latestPosts": "Latest posts",
 		"top.allPosts": "See all posts",
@@ -69,7 +78,6 @@ export const ui = {
 		"top.olderHistory": "Show older records",
 		"blog.lead":
 			"I have moved between platforms over the years. Posts from all of them are listed here, newest first. Most of them are in Japanese.",
-		"blog.closed": "(service closed)",
 		"blog.posts": "Posts",
 		"blog.description":
 			"Every blog post by takkyuuplayer so far, collected from Hatena Blog, Blogger and Medium.",
@@ -87,6 +95,15 @@ export const ui = {
 		"math.answer": "Answer",
 		"math.description":
 			"Math quizzes made in my student days, with answers and lecture notes (Japanese only).",
+		"welcome.beforeHosts":
+			"I've updated this website since I was a high school student. It has been hosted at",
+		"welcome.hosts": "Hosting history",
+		"welcome.afterHosts":
+			"My programming skill has developed along with the website.",
+		"welcome.closing":
+			"I rarely update any contents, ever since I started a career as a professional web engineer. However, I sometimes come back here and feel nostalgic memories.",
+		"welcome.description":
+			"A short welcome from takkyuuplayer, and how this website has moved between hosts since high school.",
 	},
 } as const;
 
