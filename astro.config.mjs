@@ -21,10 +21,11 @@ export default defineConfig({
 		},
 	},
 
-	// アダプター付きの build では GET に 301 で応える。既定ロケールを変えるときは
-	// defaultLocale と一緒にここも変える。
+	// 既定は 301 だが、301 はブラウザに永続キャッシュされ、あとで / の振り分けを
+	// 変えても訪問者に届かない。/ の行き先は変えうるので 302 にする。
+	// 既定ロケールを変えるときは defaultLocale と一緒にここも変える。
 	redirects: {
-		"/": "/ja/",
+		"/": { status: 302, destination: "/ja/" },
 	},
 
 	site: "https://homepage5.takkyuuplayer.workers.dev",
