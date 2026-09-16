@@ -49,6 +49,9 @@ export const blogs: readonly Blog[] = [
 		id: "hatena",
 		name: { ja: "はてなブログ", en: "Hatena Blog" },
 		url: "https://takkyuuplayer.hatenablog.com/",
+		// フィードは 24 件を返し、次ページへの link は無い。2026-09 に年別アーカイブ
+		// （/archive/2014〜2016）の記事数 11 + 3 + 10 と突き合わせて、全記事と確認した。
+		// ?page=2 は 200 で返るが entry は 0 件。
 		feedUrl: "https://takkyuuplayer.hatenablog.com/feed",
 		from: 2014,
 		to: 2016,
