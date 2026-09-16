@@ -36,6 +36,7 @@ export const ui = {
 		"apps.updated": "更新",
 		"apps.description":
 			"卓球Playerが作ったアプリの一覧。今も使えるものと、もう動かなくなったものをまとめています。",
+		"math.toc": "目次",
 		"math.kingdom": "数学王国",
 		"math.kingdom.message": "学生時代、数学の問題を作るのが趣味でした",
 		"math.class": "数学教室",
@@ -87,6 +88,7 @@ export const ui = {
 		"apps.updated": "Updated",
 		"apps.description":
 			"A list of apps made by takkyuuplayer, both the ones still usable and the ones that no longer work.",
+		"math.toc": "Contents",
 		"math.kingdom": "Math Kingdom (Japanese only)",
 		"math.kingdom.message":
 			"One of my hobbies was making math quizzes when I was a student.",

@@ -32,14 +32,37 @@ function answerUrl(problem: Problem): string | undefined {
 	const file = answerFile(problem);
 	return file === undefined ? undefined : pdfUrl(file);
 }
+
+// 問題が 18 問あり、後ろの節はスマホで 4 画面ほど下になる。節の存在を冒頭で
+// 知らせるため、節への目次を置く。id は表示名や翻訳が変わっても URL が変わらないよう、
+// 中身を表す英語の固定名にする。
+const problemsSection = { id: "problems", key: "math.kingdom" } as const;
+const lecturesSection = { id: "lectures", key: "math.class" } as const;
+const sections = [problemsSection, lecturesSection];
 ---
 
 <Layout title={t("nav.math")} description={t("math.description")}>
 	<h1 class="page-heading">{t("nav.math")}</h1>
 
+	<nav aria-label={t("math.toc")} class="mt-6">
+		<ul class="flex flex-wrap gap-x-6 gap-y-2">
+			{
+				sections.map((section) => (
+					<li>
+						<a href={`#${section.id}`} class="link">
+							{t(section.key)}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+
 	<div class="mt-8 space-y-12">
 		<section>
-			<h2 class="section-heading">{t("math.kingdom")}</h2>
+			<h2 id={problemsSection.id} class="section-heading">
+				{t(problemsSection.key)}
+			</h2>
 			<p>{t("math.kingdom.message")}</p>
 			<ul class="mt-6 space-y-8">
 				{
@@ -66,7 +89,9 @@ function answerUrl(problem: Problem): string | undefined {
 		</section>
 
 		<section>
-			<h2 class="section-heading">{t("math.class")}</h2>
+			<h2 id={lecturesSection.id} class="section-heading">
+				{t(lecturesSection.key)}
+			</h2>
 			<ul class="space-y-2">
 				{
 					lectures.map((lecture) => (
