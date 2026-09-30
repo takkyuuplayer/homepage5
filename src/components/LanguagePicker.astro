@@ -20,58 +20,52 @@ const mutedLink =
 const item = "flex items-center gap-2 px-3 py-2";
 ---
 
-<nav aria-label={t("nav.language")}>
-	<details id={id} class="group relative">
-		<summary class:list={[mutedLink, "cursor-pointer list-none py-1"]}>
-			<span class="inline-flex items-center gap-2 align-middle">
-				<Globe
-					class="block h-4 w-auto"
-					fill="currentColor"
-					aria-hidden="true"
-				/>
-				<span lang={lang}>{localeNames[lang]}</span>
-				<span class="sr-only">{t("nav.languageSwitch")}</span>
-				<ExpandMore
-					class="block h-4 w-auto group-open:rotate-180"
-					fill="currentColor"
-					aria-hidden="true"
-				/>
-			</span>
-		</summary>
+<!-- popover にすると、ナビのパネルと同じく開閉の相互排他・Esc・外側クリックが
+     仕様で付く。パネルの位置は menu-panel（ボタンを implicit anchor にした配置）。 -->
+<nav aria-label={t("nav.language")} class="group">
+	<button type="button" popovertarget={id} class:list={[mutedLink, "py-1"]}>
+		<span class="inline-flex items-center gap-2 align-middle">
+			<Globe class="block h-4 w-auto" fill="currentColor" aria-hidden="true" />
+			<span lang={lang}>{localeNames[lang]}</span>
+			<span class="sr-only">{t("nav.languageSwitch")}</span>
+			<ExpandMore
+				class="block h-4 w-auto group-has-[:popover-open]:rotate-180"
+				fill="currentColor"
+				aria-hidden="true"
+			/>
+		</span>
+	</button>
 
-		<ul
-			class="border-line bg-surface-raised absolute top-full right-0 z-10 mt-1 w-max rounded-xs border py-1"
-		>
-			{
-				langs.map((locale) => (
-					<li>
-						{locale === lang ? (
-							<span
-								aria-current="page"
-								lang={locale}
-								class:list={["text-ink", item]}
-							>
-								<Check
-									class="block h-4 w-auto"
-									fill="currentColor"
-									aria-hidden="true"
-								/>
-								{localeNames[locale]}
-							</span>
-						) : (
-							<a
-								href={getRelativeLocaleUrl(locale, path)}
-								hreflang={locale}
-								lang={locale}
-								class:list={[mutedLink, item]}
-							>
-								<Check class="invisible block h-4 w-auto" aria-hidden="true" />
-								{localeNames[locale]}
-							</a>
-						)}
-					</li>
-				))
-			}
-		</ul>
-	</details>
+	<ul id={id} popover class="menu-panel">
+		{
+			langs.map((locale) => (
+				<li>
+					{locale === lang ? (
+						<span
+							aria-current="page"
+							lang={locale}
+							class:list={["text-ink", item]}
+						>
+							<Check
+								class="block h-4 w-auto"
+								fill="currentColor"
+								aria-hidden="true"
+							/>
+							{localeNames[locale]}
+						</span>
+					) : (
+						<a
+							href={getRelativeLocaleUrl(locale, path)}
+							hreflang={locale}
+							lang={locale}
+							class:list={[mutedLink, item]}
+						>
+							<Check class="invisible block h-4 w-auto" aria-hidden="true" />
+							{localeNames[locale]}
+						</a>
+					)}
+				</li>
+			))
+		}
+	</ul>
 </nav>

@@ -52,6 +52,21 @@
 	font-weight: 700;
 }
 
+/* ヘッダーのボタンから開く小さなパネル（ナビ・言語切替）。popover は top layer で
+   position: fixed になり、UA が inset: 0 / margin: auto を当てるので、それを戻して
+   呼び出しボタンの下に右揃えで置く。popovertarget で開いた popover はボタンを
+   implicit anchor として持つため、anchor-name / position-anchor は書かない。 */
+@utility menu-panel {
+	position-area: bottom span-left;
+	inset: auto;
+	margin: --spacing(1) 0 0;
+	width: max-content;
+	border: 1px solid var(--color-line);
+	border-radius: var(--radius-xs);
+	background-color: var(--color-surface-raised);
+	padding: --spacing(1) 0;
+}
+
 /* ページの h1。section-heading と同じ理由で名前を持つ。apps・math と 3 ページ目で
    同じクラス列を書くことになったので切り出した。 */
 @utility page-heading {
