@@ -1,25 +1,11 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Logo from "../assets/logo.svg";
-import LanguagePicker from "./LanguagePicker.astro";
-import type { UIKey } from "../i18n/ui";
-import {
-	getPathWithoutLocale,
-	resolveLang,
-	useTranslations,
-} from "../i18n/utils";
+import NavLinks from "./NavLinks.astro";
+import { resolveLang, useTranslations } from "../i18n/utils";
 
 const lang = resolveLang(Astro.currentLocale);
 const t = useTranslations(lang);
-
-const path = getPathWithoutLocale(Astro.url.pathname);
-
-const items: { key: UIKey; path: string }[] = [
-	{ key: "nav.apps", path: "apps" },
-	{ key: "nav.math", path: "math" },
-	{ key: "nav.blog", path: "blog" },
-	{ key: "nav.welcome", path: "welcome" },
-];
 ---
 
 <header class="border-line h-16 border-b">
@@ -32,79 +18,71 @@ const items: { key: UIKey; path: string }[] = [
 			<Logo class="text-ink block h-8 w-auto" aria-hidden="true" />
 		</a>
 
-		<div class="flex items-center gap-8">
-			<nav aria-label={t("nav.main")}>
-				<button
-					type="button"
-					popovertarget="site-nav"
-					aria-label={t("nav.menu")}
-					class="focus-visible:outline-accent rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:hidden"
+		<nav aria-label={t("nav.main")}>
+			<button
+				type="button"
+				popovertarget="site-nav"
+				aria-label={t("nav.menu")}
+				class="focus-visible:outline-accent rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:hidden"
+			>
+				<svg
+					aria-hidden="true"
+					viewBox="0 0 24 24"
+					class="block h-6 w-6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
 				>
-					<svg
-						aria-hidden="true"
-						viewBox="0 0 24 24"
-						class="block h-6 w-6"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-					>
-						<line x1="3" y1="6" x2="21" y2="6"></line>
-						<line x1="3" y1="12" x2="21" y2="12"></line>
-						<line x1="3" y1="18" x2="21" y2="18"></line>
-					</svg>
-				</button>
+					<line x1="3" y1="6" x2="21" y2="6"></line>
+					<line x1="3" y1="12" x2="21" y2="12"></line>
+					<line x1="3" y1="18" x2="21" y2="18"></line>
+				</svg>
+			</button>
 
-				<ul
-					id="site-nav"
-					popover
-					class="border-line bg-surface-raised text-ink top-16 right-0 bottom-auto left-0 m-0 w-auto gap-1 border-b p-4 open:flex open:flex-col sm:static sm:flex sm:flex-row sm:gap-6 sm:border-0 sm:bg-transparent sm:p-0"
-				>
-					{
-						items.map((item) => (
-							<li>
-								<a
-									href={getRelativeLocaleUrl(lang, item.path)}
-									aria-current={item.path === path ? "page" : undefined}
-									class:list={[
-										"focus-visible:outline-accent hover:text-accent block rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2",
-										item.path === path ? "text-ink" : "text-ink-muted",
-									]}
-								>
-									{t(item.key)}
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</nav>
+			<!-- sm 未満はハンバーガーの下に開くパネル、sm 以上は同じ項目を横一列に常に出す。
+			     同じ項目を 2 回描くが、見えているのは常に片方で、display: none の方は
+			     アクセシビリティツリーにも出ない。popover を両方の幅で使い回すと、UA の
+			     popover スタイルを sm: で戻す指定と、広げたときに閉じる JS が要る。 -->
+			<div id="site-nav" popover>
+				<NavLinks layout="column" />
+			</div>
 
-			<LanguagePicker id="language-menu" lang={lang} path={path} />
-		</div>
+			<div class="flex items-center gap-4 max-sm:hidden">
+				<NavLinks layout="row" />
+			</div>
+		</nav>
 	</div>
 </header>
 
-<script>
-	// popover は top layer にいる間、著者スタイルでは position を静的に戻せない
-	// （CSS Position 4: specified position が absolute/fixed 以外なら absolute に computes する）。
-	// sm: でハンバーガーが隠れると閉じる手段も消えるため、隠れた時点で閉じる。
-	// hidePopover() は閉じている popover には何もしないので、開閉状態は見ていない。
-	const nav = document.getElementById("site-nav");
-	const button = document.querySelector('[popovertarget="site-nav"]');
-	const language = document.querySelector<HTMLDetailsElement>("#language-menu");
+<style>
+	@reference "../styles/global.css";
 
-	addEventListener("resize", () => {
-		if (!button?.checkVisibility()) nav?.hidePopover();
-	});
+	/* popover は top layer で position: fixed になり、UA が inset: 0 を当てるので、
+	   それを戻して呼び出しボタンの下に右揃えで置く。popovertarget で開いた popover は
+	   ボタンを implicit anchor として持つため、anchor-name / position-anchor は書かない。
+	   margin・border・padding は Preflight が 0 にしているので、ここで付け直す。 */
+	[popover] {
+		position-area: bottom span-left;
+		inset: auto;
+		margin: --spacing(1) 0 0;
+		width: max-content;
+		border: 1px solid var(--color-line);
+		border-radius: var(--radius-xs);
+		background-color: var(--color-surface-raised);
+		padding: --spacing(1) 0;
 
-	// ナビは top layer に入るため、重なると言語切替のパネルを完全に覆う。
-	// popover 同士なら片方を開くと他方が閉じるが、言語切替は details なので
-	// 相互排他を自前で持つ。
-	nav?.addEventListener("toggle", (event) => {
-		if (event.newState === "open" && language) language.open = false;
-	});
+		&:popover-open {
+			display: flex;
+			flex-direction: column;
+		}
 
-	language?.addEventListener("toggle", (event) => {
-		if (event.newState === "open") nav?.hidePopover();
-	});
-</script>
+		/* 開いたまま sm 以上に広げても閉じる JS は持たず、表示だけ消す。
+		   狭めれば開いたまま戻り、外側クリックや Esc で閉じる。 */
+		@variant sm {
+			&:popover-open {
+				display: none;
+			}
+		}
+	}
+</style>
