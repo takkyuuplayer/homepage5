@@ -52,10 +52,10 @@
 	font-weight: 700;
 }
 
-/* ヘッダーのハンバーガーから開く小さなパネル。popover は top layer で
-   position: fixed になり、UA が inset: 0 / margin: auto を当てるので、それを戻して
-   呼び出しボタンの下に右揃えで置く。popovertarget で開いた popover はボタンを
-   implicit anchor として持つため、anchor-name / position-anchor は書かない。 */
+/* ヘッダーのハンバーガーから開く小さなパネル。popover は top layer で position: fixed
+   になり、UA が inset: 0 を当てるので、それを戻して呼び出しボタンの下に右揃えで置く。
+   popovertarget で開いた popover はボタンを implicit anchor として持つため、
+   anchor-name / position-anchor は書かない。 */
 @utility menu-panel {
 	position-area: bottom span-left;
 	inset: auto;

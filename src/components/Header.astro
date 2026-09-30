@@ -21,9 +21,11 @@ const items: { key: UIKey; path: string }[] = [
 	{ key: "nav.welcome", path: "welcome" },
 ];
 
-// ページのリンクと言語のリンクで同じ形。sm 未満はパネルの中なので左右に余白を取る。
+// ページのリンクと言語のリンクで同じ形。今いる場所は aria-current で示し、色もそれに
+// 連動させる。今の言語は href の無い a（リンクの置き場所を示すプレースホルダー）なので、
+// hover の色は href のあるものだけに付ける。sm 未満はパネルの中なので左右に余白を取る。
 const itemClass =
-	"flex items-center gap-2 rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent hover:text-accent max-sm:px-3";
+	"text-ink-muted aria-[current=page]:text-ink [&[href]:hover]:text-accent focus-visible:outline-accent flex items-center gap-2 rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2 max-sm:px-3";
 ---
 
 <header class="border-line h-16 border-b">
@@ -60,11 +62,12 @@ const itemClass =
 
 			<!-- ページと言語を 1 つのパネルにまとめ、区切り線で分ける。sm 未満はハンバーガーの
 			     下に開く小さなパネル。sm 以上は閉じたまま横一列に見せるため、UA が popover に
-			     当てる display: none・position: fixed・border・背景・padding・margin を sm: で戻す。 -->
+			     当てる display: none・position: fixed・overflow: auto・背景を sm: で戻す
+			     （margin・border・padding は Preflight が 0 にしているので戻さない）。 -->
 			<div
 				id="site-nav"
 				popover
-				class="text-ink max-sm:menu-panel open:flex open:flex-col sm:static sm:m-0 sm:flex sm:flex-row sm:items-center sm:gap-4 sm:border-0 sm:bg-transparent sm:p-0"
+				class="max-sm:menu-panel open:flex open:flex-col sm:static sm:flex sm:flex-row sm:items-center sm:gap-4 sm:overflow-visible sm:bg-transparent"
 			>
 				<ul class="sm:flex sm:gap-6">
 					{
@@ -73,10 +76,7 @@ const itemClass =
 								<a
 									href={getRelativeLocaleUrl(lang, item.path)}
 									aria-current={item.path === path ? "page" : undefined}
-									class:list={[
-										itemClass,
-										item.path === path ? "text-ink" : "text-ink-muted",
-									]}
+									class={itemClass}
 								>
 									{t(item.key)}
 								</a>
@@ -85,42 +85,37 @@ const itemClass =
 					}
 				</ul>
 
-				<!-- sm 以上は横一列なので、区切り線も縦にする。 -->
 				<hr class="border-line max-sm:my-1 sm:h-5 sm:border-t-0 sm:border-l" />
 
 				<ul aria-label={t("nav.language")} class="sm:flex sm:gap-4">
 					{
-						langs.map((locale) => (
-							<li>
-								{locale === lang ? (
-									<span
-										aria-current="page"
+						langs.map((locale) => {
+							const current = locale === lang;
+							return (
+								<li>
+									<a
+										href={
+											current ? undefined : getRelativeLocaleUrl(locale, path)
+										}
+										hreflang={current ? undefined : locale}
+										aria-current={current ? "page" : undefined}
 										lang={locale}
-										class:list={[itemClass, "text-ink"]}
+										class={itemClass}
 									>
+										{/* 今の言語だけチェック。他は sm 未満の縦並びで文字の左端を揃えるための透明な印 */}
 										<Check
-											class="block h-4 w-auto"
+											class:list={[
+												"h-4 w-auto",
+												!current && "invisible sm:hidden",
+											]}
 											fill="currentColor"
 											aria-hidden="true"
 										/>
 										{localeNames[locale]}
-									</span>
-								) : (
-									<a
-										href={getRelativeLocaleUrl(locale, path)}
-										hreflang={locale}
-										lang={locale}
-										class:list={[itemClass, "text-ink-muted"]}
-									>
-										<Check
-											class="invisible block h-4 w-auto sm:hidden"
-											aria-hidden="true"
-										/>
-										{localeNames[locale]}
 									</a>
-								)}
-							</li>
-						))
+								</li>
+							);
+						})
 					}
 				</ul>
 			</div>
