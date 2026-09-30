@@ -1,8 +1,8 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
+import Check from "../assets/check.svg";
 import Logo from "../assets/logo.svg";
-import LanguagePicker from "./LanguagePicker.astro";
-import type { UIKey } from "../i18n/ui";
+import { langs, localeNames, type UIKey } from "../i18n/ui";
 import {
 	getPathWithoutLocale,
 	resolveLang,
@@ -20,6 +20,10 @@ const items: { key: UIKey; path: string }[] = [
 	{ key: "nav.blog", path: "blog" },
 	{ key: "nav.welcome", path: "welcome" },
 ];
+
+// ページのリンクと言語のリンクで同じ形。sm 未満はパネルの中なので左右に余白を取る。
+const itemClass =
+	"flex items-center gap-2 rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent hover:text-accent max-sm:px-3";
 ---
 
 <header class="border-line h-16 border-b">
@@ -32,37 +36,37 @@ const items: { key: UIKey; path: string }[] = [
 			<Logo class="text-ink block h-8 w-auto" aria-hidden="true" />
 		</a>
 
-		<div class="flex items-center gap-8">
-			<nav aria-label={t("nav.main")}>
-				<button
-					type="button"
-					popovertarget="site-nav"
-					aria-label={t("nav.menu")}
-					class="focus-visible:outline-accent rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:hidden"
+		<nav aria-label={t("nav.main")}>
+			<button
+				type="button"
+				popovertarget="site-nav"
+				aria-label={t("nav.menu")}
+				class="focus-visible:outline-accent rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:hidden"
+			>
+				<svg
+					aria-hidden="true"
+					viewBox="0 0 24 24"
+					class="block h-6 w-6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
 				>
-					<svg
-						aria-hidden="true"
-						viewBox="0 0 24 24"
-						class="block h-6 w-6"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-					>
-						<line x1="3" y1="6" x2="21" y2="6"></line>
-						<line x1="3" y1="12" x2="21" y2="12"></line>
-						<line x1="3" y1="18" x2="21" y2="18"></line>
-					</svg>
-				</button>
+					<line x1="3" y1="6" x2="21" y2="6"></line>
+					<line x1="3" y1="12" x2="21" y2="12"></line>
+					<line x1="3" y1="18" x2="21" y2="18"></line>
+				</svg>
+			</button>
 
-				<!-- sm 未満はハンバーガーの下に開く小さなパネル。sm 以上は閉じたまま横一列に
-				     見せるため、UA が popover に当てる display: none・position: fixed・
-				     border・背景・padding・margin を sm: で戻す。 -->
-				<ul
-					id="site-nav"
-					popover
-					class="text-ink max-sm:menu-panel open:flex open:flex-col sm:static sm:m-0 sm:flex sm:flex-row sm:gap-6 sm:border-0 sm:bg-transparent sm:p-0"
-				>
+			<!-- ページと言語を 1 つのパネルにまとめ、区切り線で分ける。sm 未満はハンバーガーの
+			     下に開く小さなパネル。sm 以上は閉じたまま横一列に見せるため、UA が popover に
+			     当てる display: none・position: fixed・border・背景・padding・margin を sm: で戻す。 -->
+			<div
+				id="site-nav"
+				popover
+				class="text-ink max-sm:menu-panel open:flex open:flex-col sm:static sm:m-0 sm:flex sm:flex-row sm:items-center sm:gap-4 sm:border-0 sm:bg-transparent sm:p-0"
+			>
+				<ul class="sm:flex sm:gap-6">
 					{
 						items.map((item) => (
 							<li>
@@ -70,7 +74,7 @@ const items: { key: UIKey; path: string }[] = [
 									href={getRelativeLocaleUrl(lang, item.path)}
 									aria-current={item.path === path ? "page" : undefined}
 									class:list={[
-										"focus-visible:outline-accent hover:text-accent block rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2 max-sm:px-3",
+										itemClass,
 										item.path === path ? "text-ink" : "text-ink-muted",
 									]}
 								>
@@ -80,10 +84,47 @@ const items: { key: UIKey; path: string }[] = [
 						))
 					}
 				</ul>
-			</nav>
 
-			<LanguagePicker id="language-menu" lang={lang} path={path} />
-		</div>
+				<!-- sm 以上は横一列なので、区切り線も縦にする。 -->
+				<hr class="border-line max-sm:my-1 sm:h-5 sm:border-t-0 sm:border-l" />
+
+				<ul aria-label={t("nav.language")} class="sm:flex sm:gap-4">
+					{
+						langs.map((locale) => (
+							<li>
+								{locale === lang ? (
+									<span
+										aria-current="page"
+										lang={locale}
+										class:list={[itemClass, "text-ink"]}
+									>
+										<Check
+											class="block h-4 w-auto"
+											fill="currentColor"
+											aria-hidden="true"
+										/>
+										{localeNames[locale]}
+									</span>
+								) : (
+									<a
+										href={getRelativeLocaleUrl(locale, path)}
+										hreflang={locale}
+										lang={locale}
+										class:list={[itemClass, "text-ink-muted"]}
+									>
+										<Check
+											class="invisible block h-4 w-auto sm:hidden"
+											aria-hidden="true"
+										/>
+										{localeNames[locale]}
+									</a>
+								)}
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</nav>
 	</div>
 </header>
 
@@ -92,7 +133,6 @@ const items: { key: UIKey; path: string }[] = [
 	// （CSS Position 4: specified position が absolute/fixed 以外なら absolute に computes する）。
 	// sm: でハンバーガーが隠れると閉じる手段も消えるため、隠れた時点で閉じる。
 	// hidePopover() は閉じている popover には何もしないので、開閉状態は見ていない。
-	// 言語切替との相互排他は、両方が popover=auto なので仕様に任せる。
 	const nav = document.getElementById("site-nav");
 	const button = document.querySelector('[popovertarget="site-nav"]');
 

@@ -52,7 +52,7 @@
 	font-weight: 700;
 }
 
-/* ヘッダーのボタンから開く小さなパネル（ナビ・言語切替）。popover は top layer で
+/* ヘッダーのハンバーガーから開く小さなパネル。popover は top layer で
    position: fixed になり、UA が inset: 0 / margin: auto を当てるので、それを戻して
    呼び出しボタンの下に右揃えで置く。popovertarget で開いた popover はボタンを
    implicit anchor として持つため、anchor-name / position-anchor は書かない。 */
