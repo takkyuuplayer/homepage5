@@ -1,0 +1,88 @@
+---
+// ヘッダーのナビの項目（ページと言語）。sm 未満はハンバーガーのパネルに縦に、
+// sm 以上は横一列に並べる。同じ項目を 2 回描いて片方だけを表示するので、
+// 並べ方だけを props で受ける。
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Check from "../assets/check.svg";
+import { langs, localeNames, type UIKey } from "../i18n/ui";
+import {
+	getPathWithoutLocale,
+	resolveLang,
+	useTranslations,
+} from "../i18n/utils";
+
+interface Props {
+	layout: "column" | "row";
+}
+
+const { layout } = Astro.props;
+const row = layout === "row";
+
+const lang = resolveLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
+const path = getPathWithoutLocale(Astro.url.pathname);
+
+const items: { key: UIKey; path: string }[] = [
+	{ key: "nav.apps", path: "apps" },
+	{ key: "nav.math", path: "math" },
+	{ key: "nav.blog", path: "blog" },
+	{ key: "nav.welcome", path: "welcome" },
+];
+
+// ページのリンクと言語のリンクで同じ形。今いる場所は aria-current で示し、色もそれに
+// 連動させる。今の言語は href の無い a（リンクの置き場所を示すプレースホルダー）なので、
+// hover の色は href のあるものだけに付ける。パネルの中では左右に余白を取る。
+const itemClass = [
+	"text-ink-muted aria-[current=page]:text-ink [&[href]:hover]:text-accent focus-visible:outline-accent flex items-center gap-2 rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2",
+	!row && "px-3",
+];
+---
+
+<ul class:list={[row && "flex gap-6"]}>
+	{
+		items.map((item) => (
+			<li>
+				<a
+					href={getRelativeLocaleUrl(lang, item.path)}
+					aria-current={item.path === path ? "page" : undefined}
+					class:list={itemClass}
+				>
+					{t(item.key)}
+				</a>
+			</li>
+		))
+	}
+</ul>
+
+<hr class:list={["border-line", row ? "h-5 border-t-0 border-l" : "my-1"]} />
+
+<ul aria-label={t("nav.language")} class:list={[row && "flex gap-4"]}>
+	{
+		langs.map((locale) => {
+			const current = locale === lang;
+			return (
+				<li>
+					<a
+						href={current ? undefined : getRelativeLocaleUrl(locale, path)}
+						hreflang={current ? undefined : locale}
+						aria-current={current ? "page" : undefined}
+						lang={locale}
+						class:list={itemClass}
+					>
+						{/* 今の言語だけチェック。縦並びでは他にも透明な印を置いて文字の左端を揃える */}
+						<Check
+							class:list={[
+								"h-4 w-auto",
+								!current && (row ? "hidden" : "invisible"),
+							]}
+							fill="currentColor"
+							aria-hidden="true"
+						/>
+						{localeNames[locale]}
+					</a>
+				</li>
+			);
+		})
+	}
+</ul>
