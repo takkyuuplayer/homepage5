@@ -28,7 +28,7 @@ export default defineConfig({
 		"/": { status: 302, destination: "/ja/" },
 	},
 
-	site: "https://homepage5.takkyuuplayer.workers.dev",
+	site: "https://takkyuuplayer.com",
 
 	vite: {
 		plugins: [tailwindcss()],
