@@ -15,25 +15,23 @@ const lang = resolveLang(Astro.currentLocale);
 ---
 
 <ul class="space-y-2">
-	{
-		items.map((item) => (
-			<li class="flex gap-4">
-				<time
-					datetime={toDateString(item.publishedAt)}
-					class="text-ink-muted shrink-0 tabular-nums"
-				>
-					{formatDate(item.publishedAt, lang)}
-				</time>
-				{/* 行の高さ（1.5rem）と同じ 24px なので、折り返しても 1 行目に揃う。 */}
-				{item.source && (
-					<BlogIcon source={item.source} class="block h-6 w-6 shrink-0" />
-				)}
-				{item.url ? (
-					<ExternalLink href={item.url}>{item.title}</ExternalLink>
-				) : (
-					<span>{item.title}</span>
-				)}
-			</li>
-		))
-	}
+	{items.map((item) => (
+		<li class="flex gap-4">
+			<time
+				datetime={toDateString(item.publishedAt)}
+				class="text-ink-muted shrink-0 tabular-nums"
+			>
+				{formatDate(item.publishedAt, lang)}
+			</time>
+			{/* 行の高さ（1.5rem）と同じ 24px なので、折り返しても 1 行目に揃う。 */}
+			{item.source && (
+				<BlogIcon source={item.source} class="block h-6 w-6 shrink-0" />
+			)}
+			{item.url ? (
+				<ExternalLink href={item.url}>{item.title}</ExternalLink>
+			) : (
+				<span>{item.title}</span>
+			)}
+		</li>
+	))}
 </ul>

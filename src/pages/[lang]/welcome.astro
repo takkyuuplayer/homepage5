@@ -26,13 +26,11 @@ function linkUrl(host: Host): string {
 			aria-label={t("welcome.hosts")}
 			class="bg-surface-raised flex flex-col gap-y-1 rounded-md px-4 py-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-2"
 		>
-			{
-				hosts.map((host) => (
-					<li>
-						<ExternalLink href={linkUrl(host)}>{host.name}</ExternalLink>
-					</li>
-				))
-			}
+			{hosts.map((host) => (
+				<li>
+					<ExternalLink href={linkUrl(host)}>{host.name}</ExternalLink>
+				</li>
+			))}
 		</ol>
 		<p>{t("welcome.afterHosts")}</p>
 		<p>{t("welcome.closing")}</p>

@@ -37,41 +37,39 @@ const rows = items.map((app) => ({ app, meta: metaParts(app) }));
 ---
 
 <ul class="space-y-6">
-	{
-		rows.map(({ app, meta }) => (
-			<li>
-				<div>
-					{app.url === undefined ? (
-						<span>{app.title}</span>
-					) : app.type === "web" ? (
-						<ExternalLink href={app.url}>{app.title}</ExternalLink>
-					) : (
-						<FileLink href={app.url} format="ZIP">
-							{app.title}
-						</FileLink>
-					)}
-				</div>
-
-				<p class="mt-1">{app.description[lang]}</p>
-
-				{meta.length > 0 && (
-					<p class="text-ink-muted mt-1 text-sm">
-						{meta.map((part, index) => (
-							<>
-								{index > 0 && " · "}
-								{part.label && `${part.label} `}
-								{part.date ? (
-									<time datetime={toDateString(part.date)}>
-										{formatDate(part.date, lang)}
-									</time>
-								) : (
-									part.text
-								)}
-							</>
-						))}
-					</p>
+	{rows.map(({ app, meta }) => (
+		<li>
+			<div>
+				{app.url === undefined ? (
+					<span>{app.title}</span>
+				) : app.type === "web" ? (
+					<ExternalLink href={app.url}>{app.title}</ExternalLink>
+				) : (
+					<FileLink href={app.url} format="ZIP">
+						{app.title}
+					</FileLink>
 				)}
-			</li>
-		))
-	}
+			</div>
+
+			<p class="mt-1">{app.description[lang]}</p>
+
+			{meta.length > 0 && (
+				<p class="text-ink-muted mt-1 text-sm">
+					{meta.map((part, index) => (
+						<>
+							{index > 0 && " · "}
+							{part.label && `${part.label} `}
+							{part.date ? (
+								<time datetime={toDateString(part.date)}>
+									{formatDate(part.date, lang)}
+								</time>
+							) : (
+								part.text
+							)}
+						</>
+					))}
+				</p>
+			)}
+		</li>
+	))}
 </ul>

@@ -29,13 +29,11 @@ const olderHistory = historyEntries.slice(10);
 	<div class="mt-8 space-y-12">
 		<section>
 			<h2 class="section-heading">{t("top.latestPosts")}</h2>
-			{
-				posts.length > 0 ? (
-					<EntryList items={posts} />
-				) : (
-					<p class="text-ink-muted">{t("top.postsUnavailable")}</p>
-				)
-			}
+			{posts.length > 0 ? (
+				<EntryList items={posts} />
+			) : (
+				<p class="text-ink-muted">{t("top.postsUnavailable")}</p>
+			)}
 			<a
 				href={getRelativeLocaleUrl(lang, "blog")}
 				class="link mt-4 inline-block"
@@ -48,9 +46,7 @@ const olderHistory = historyEntries.slice(10);
 			<h2 class="section-heading">{t("top.history")}</h2>
 			<EntryList items={recentHistory} />
 			<details class="mt-2">
-				<summary
-					class="focus-visible:outline-accent hover:text-accent w-fit cursor-pointer rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2"
-				>
+				<summary class="focus-visible:outline-accent hover:text-accent w-fit cursor-pointer rounded-xs py-2 focus-visible:outline-2 focus-visible:outline-offset-2">
 					{t("top.olderHistory")}
 				</summary>
 				<EntryList items={olderHistory} />
