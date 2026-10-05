@@ -26,9 +26,6 @@
 		"tailwindcss": "^4.3.3",
 		"temml": "^0.13.5"
 	},
-	"allowScripts": {
-		"esbuild": true
-	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.10",
 		"@types/node": "^26.6.4",
@@ -40,12 +37,9 @@
 		"vitest": "^5.0.3",
 		"wrangler": "^4.147.0"
 	},
-	"overrides": {
-		"miniflare": {
-			"sharp": "0.35.4"
-		},
-		"texsvg": {
-			"svgo": "4.1.0"
-		}
+	"allowScripts": {
+		"esbuild": true,
+		"fsevents": true,
+		"workerd": true
 	}
 }
