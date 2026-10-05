@@ -1,53 +1,53 @@
 {
-  "name": "homepage5",
-  "type": "module",
-  "version": "0.0.1",
-  "engines": {
-    "node": ">=22.12.0"
-  },
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "check": "astro check",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "generate-types": "wrangler types",
-    "deploy": "npm run build && wrangler deploy",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "dependencies": {
-    "@astrojs/cloudflare": "^14.3.3",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.5",
-    "fast-xml-parser": "^5.11.2",
-    "tailwindcss": "^4.3.3",
-    "temml": "^0.13.5"
-  },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@types/node": "^26.6.4",
-    "prettier": "^3.9.9",
-    "prettier-plugin-astro": "^1.1.0",
-    "prettier-plugin-tailwindcss": "^0.8.1",
-    "texsvg": "^4.0.2",
-    "typescript": "^6.0.3",
-    "vitest": "^5.0.3",
-    "wrangler": "^4.147.0"
-  },
-  "overrides": {
-    "miniflare": {
-      "sharp": "0.35.4"
-    },
-    "texsvg": {
-      "svgo": "4.1.0"
-    }
-  },
-  "allowScripts": {
-    "esbuild": true,
-    "fsevents": true,
-    "workerd@1.20261001.1": true
-  }
+	"name": "homepage5",
+	"type": "module",
+	"version": "0.0.1",
+	"engines": {
+		"node": ">=22.12.0"
+	},
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"check": "astro check",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"generate-types": "wrangler types",
+		"deploy": "npm run build && wrangler deploy",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"dependencies": {
+		"@astrojs/cloudflare": "^14.3.3",
+		"@tailwindcss/vite": "^4.3.3",
+		"astro": "^7.3.5",
+		"fast-xml-parser": "^5.11.2",
+		"tailwindcss": "^4.3.3",
+		"temml": "^0.13.5"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.10",
+		"@types/node": "^26.6.4",
+		"prettier": "^3.9.9",
+		"prettier-plugin-astro": "^1.1.0",
+		"prettier-plugin-tailwindcss": "^0.8.1",
+		"texsvg": "^4.0.2",
+		"typescript": "^6.0.3",
+		"vitest": "^5.0.3",
+		"wrangler": "^4.147.0"
+	},
+	"overrides": {
+		"miniflare": {
+			"sharp": "0.35.4"
+		},
+		"texsvg": {
+			"svgo": "4.1.0"
+		}
+	},
+	"allowScripts": {
+		"esbuild": true,
+		"fsevents": true,
+		"workerd": true
+	}
 }
