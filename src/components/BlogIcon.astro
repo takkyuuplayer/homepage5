@@ -30,18 +30,16 @@ const size = 24;
 // blogger.com が配る apple-touch-icon（PNG）をそのまま使う。
 ---
 
-{
-	source === "blogger" ? (
-		<Image
-			src={blogger}
-			alt={name}
-			height={size}
-			densities={[1, 2]}
-			class={className}
-		/>
-	) : source === "hatena" ? (
-		<Hatena role="img" aria-label={name} class={className} />
-	) : (
-		<Medium role="img" aria-label={name} class={className} />
-	)
-}
+{source === "blogger" ? (
+	<Image
+		src={blogger}
+		alt={name}
+		height={size}
+		densities={[1, 2]}
+		class={className}
+	/>
+) : source === "hatena" ? (
+	<Hatena role="img" aria-label={name} class={className} />
+) : (
+	<Medium role="img" aria-label={name} class={className} />
+)}

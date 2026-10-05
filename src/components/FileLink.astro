@@ -12,7 +12,5 @@ const { href, format, class: className } = Astro.props;
 ---
 
 <a href={href} class:list={["link", className]}>
-	<slot />
-	{" "}
-	<span class="text-sm">{format}</span>
+	<slot /> <span class="text-sm">{format}</span>
 </a>

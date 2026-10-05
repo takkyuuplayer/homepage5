@@ -15,23 +15,21 @@ const { tex, class: className } = Astro.props;
 const blocks = parseTex(tex);
 ---
 
-{
-	blocks.map((block) =>
-		block.kind === "display" ? (
-			<div
-				class:list={[className, "overflow-x-auto overflow-y-hidden"]}
-				set:html={renderMath(block.value, true)}
-			/>
-		) : (
-			<p class={className}>
-				{block.segments.map((segment) =>
-					segment.kind === "math" ? (
-						<Fragment set:html={renderMath(segment.value, false)} />
-					) : (
-						segment.value
-					),
-				)}
-			</p>
-		),
-	)
-}
+{blocks.map((block) =>
+	block.kind === "display" ? (
+		<div
+			class:list={[className, "overflow-x-auto overflow-y-hidden"]}
+			set:html={renderMath(block.value, true)}
+		/>
+	) : (
+		<p class={className}>
+			{block.segments.map((segment) =>
+				segment.kind === "math" ? (
+					<Fragment set:html={renderMath(segment.value, false)} />
+				) : (
+					segment.value
+				),
+			)}
+		</p>
+	),
+)}

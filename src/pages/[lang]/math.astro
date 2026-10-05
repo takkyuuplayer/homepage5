@@ -46,15 +46,13 @@ const sections = [problemsSection, lecturesSection];
 
 	<nav aria-label={t("math.toc")} class="mt-6">
 		<ul class="flex flex-wrap gap-x-6 gap-y-2">
-			{
-				sections.map((section) => (
-					<li>
-						<a href={`#${section.id}`} class="link">
-							{t(section.key)}
-						</a>
-					</li>
-				))
-			}
+			{sections.map((section) => (
+				<li>
+					<a href={`#${section.id}`} class="link">
+						{t(section.key)}
+					</a>
+				</li>
+			))}
 		</ul>
 	</nav>
 
@@ -65,26 +63,24 @@ const sections = [problemsSection, lecturesSection];
 			</h2>
 			<p>{t("math.kingdom.message")}</p>
 			<ul class="mt-6 space-y-8">
-				{
-					problems.map((problem) => {
-						const url = answerUrl(problem);
-						return (
-							<li>
-								<h3 class="font-bold">
-									{t("math.problem")} {problem.number}. {problem.topic[lang]}
-								</h3>
-								<TexText tex={problem.statement} class="mt-2" />
-								{url && (
-									<p class="mt-2">
-										<FileLink href={url} format="PDF">
-											{t("math.answer")}
-										</FileLink>
-									</p>
-								)}
-							</li>
-						);
-					})
-				}
+				{problems.map((problem) => {
+					const url = answerUrl(problem);
+					return (
+						<li>
+							<h3 class="font-bold">
+								{t("math.problem")} {problem.number}. {problem.topic[lang]}
+							</h3>
+							<TexText tex={problem.statement} class="mt-2" />
+							{url && (
+								<p class="mt-2">
+									<FileLink href={url} format="PDF">
+										{t("math.answer")}
+									</FileLink>
+								</p>
+							)}
+						</li>
+					);
+				})}
 			</ul>
 		</section>
 
@@ -93,15 +89,13 @@ const sections = [problemsSection, lecturesSection];
 				{t(lecturesSection.key)}
 			</h2>
 			<ul class="space-y-2">
-				{
-					lectures.map((lecture) => (
-						<li>
-							<FileLink href={pdfUrl(lecture.file)} format="PDF">
-								{lecture.title}
-							</FileLink>
-						</li>
-					))
-				}
+				{lectures.map((lecture) => (
+					<li>
+						<FileLink href={pdfUrl(lecture.file)} format="PDF">
+							{lecture.title}
+						</FileLink>
+					</li>
+				))}
 			</ul>
 		</section>
 	</div>
