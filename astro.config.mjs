@@ -28,6 +28,10 @@ export default defineConfig({
 		"/": { status: 302, destination: "/ja/" },
 	},
 
+	// 静的サイトで session を使わない。既定のままだとアダプタが SESSION の KV
+	// binding を足し、preview と本番で同じ binding を引き継ぐことになる。
+	session: false,
+
 	site: "https://takkyuuplayer.com",
 
 	vite: {
