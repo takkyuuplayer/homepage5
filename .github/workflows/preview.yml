@@ -1,7 +1,6 @@
 name: Preview
 
 on:
-  push:
   pull_request:
 
 concurrency:
