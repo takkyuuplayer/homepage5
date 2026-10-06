@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import Github from "../assets/github.svg";
-import X from "../assets/x.svg";
 import linkedin from "../assets/linkedin.png";
+import X from "../assets/x.svg";
 import { resolveLang, useTranslations } from "../i18n/utils";
 
 const t = useTranslations(resolveLang(Astro.currentLocale));
@@ -25,7 +25,7 @@ const iconLink =
 			<ul class="flex items-center gap-1">
 				<li>
 					<a
-						href="https://github.com/takkyuuplayer"
+						href="https://github.com/takkyuuplayer/homepage5"
 						target="_blank"
 						aria-label={`GitHub ${t("link.newTab")}`}
 						class={iconLink}

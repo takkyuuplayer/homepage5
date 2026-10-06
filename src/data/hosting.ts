@@ -81,7 +81,7 @@ export const hosts: readonly Host[] = [
 	},
 	{
 		name: "Amazon SAM",
-		url: "https://github.com/aws/serverless-application-model",
+		url: "https://d2h4uyf5o1wxrg.cloudfront.net/",
 	},
 	{
 		name: "Cloudflare Workers",

@@ -12,8 +12,13 @@ export type HistoryItem = {
 // 表示順をこの配列の順序に任せるため、日付の降順で並べる（テストで保証）。
 export const history: readonly HistoryItem[] = [
 	{
+		date: "2026-10-01",
+		title: "ホームページをリニューアル",
+	},
+	{
 		date: "2018-11-01",
 		title: "ホームページをリニューアル",
+		url: "https://d2h4uyf5o1wxrg.cloudfront.net/",
 	},
 	{
 		date: "2015-02-12",
