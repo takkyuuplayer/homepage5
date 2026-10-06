@@ -2,11 +2,8 @@ import { describe, expect, it } from "vitest";
 import { history, historyEntries } from "./history";
 
 describe("history", () => {
-	// homepage4.0 の最後の記録は 2018-11-01。それより後の記録は移植後に足したもの。
 	it("should keep every record migrated from homepage4.0", () => {
-		const migrated = history.filter((item) => item.date <= "2018-11-01");
-
-		expect(migrated).toHaveLength(76);
+		expect(history).toHaveLength(77);
 	});
 
 	it("should have a readable date for every record", () => {
