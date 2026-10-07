@@ -18,9 +18,3 @@
 ### CI / CD
 
 - [Version URL](https://developers.cloudflare.com/workers/configuration/previews/) を発行する。
-
-### Tooling
-
-- Node 22.12 以上（`mise.toml` は `lts`）
-- Prettier、Vitest、`astro check`
-- ロゴは `texsvg` で生成する（`mise` の `build-logo`）
