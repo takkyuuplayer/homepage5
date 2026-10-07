@@ -6,5 +6,8 @@ export const prerender = false;
 
 // 行き先は変わりうるので 301 ではなく 302 にする。
 const lang = resolveLang(Astro.preferredLocale);
-return Astro.redirect(getRelativeLocaleUrl(lang), 302);
+const response = Astro.redirect(getRelativeLocaleUrl(lang), 302);
+// 共有キャッシュが別言語の訪問者に同じ行き先を返さないようにする。
+response.headers.set("Vary", "Accept-Language");
+return response;
 ---
