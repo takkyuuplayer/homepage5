@@ -2,17 +2,25 @@
 import EntryList from "../../components/EntryList.astro";
 import ExternalLink from "../../components/ExternalLink.astro";
 import { blogs, hasFeed } from "../../data/blogs";
-import { resolveLang, useTranslations } from "../../i18n/utils";
+import { isLang, useTranslations } from "../../i18n/utils";
 import Layout from "../../layouts/Layout.astro";
 import { fetchEntries } from "../../lib/feed";
 
-export { getLangStaticPaths as getStaticPaths } from "../../i18n/utils";
+// 記事一覧を新しい投稿に追従させるため、リクエスト時に描画する。
+export const prerender = false;
 
-const lang = resolveLang(Astro.currentLocale);
+// getStaticPaths が使われないので、/fr/blog のような URL もここに来る。
+// ja に寄せると存在しない URL が 200 で増えるため 404 にする。
+const lang = Astro.params.lang;
+if (!isLang(lang)) {
+	return new Response(null, { status: 404 });
+}
 const t = useTranslations(lang);
 
-// トップページと同じくビルド時に一度だけ取る。同じビルドでトップと合わせて
-// 4 回走るが、数十 KB の取得なので共有しない。
+// Worker の生成したレスポンスは Cloudflare のエッジにはキャッシュされないので、
+// 効くのはブラウザ側だけ。フィードの取得はリクエストごとに走る。
+Astro.response.headers.set("Cache-Control", "public, max-age=300");
+
 const posts = await fetchEntries();
 
 // 移植元のナビにあった「現在 ~ 2014」のような表記は正確でなくなっていたため、
