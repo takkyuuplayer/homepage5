@@ -13,4 +13,9 @@
 		"enabled": true,
 	},
 	"preview_urls": true,
+	// on-demand のページを Cloudflare に返させる。期間は各ページのヘッダーで決まり、
+	// ヘッダーが無い 200 は 2 時間キャッシュされるので、Worker の応答には必ず付ける。
+	"cache": {
+		"enabled": true,
+	},
 }

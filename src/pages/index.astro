@@ -9,5 +9,8 @@ const lang = resolveLang(Astro.preferredLocale);
 const response = Astro.redirect(getRelativeLocaleUrl(lang), 302);
 // 共有キャッシュが別言語の訪問者に同じ行き先を返さないようにする。
 response.headers.set("Vary", "Accept-Language");
+// Workers Cache は Vary の値ごとに別エントリを作るが、Accept-Language は
+// 正規化されず値がばらつくので、ほとんど当たらない。載せずに毎回振り分ける。
+response.headers.set("Cache-Control", "no-store");
 return response;
 ---
