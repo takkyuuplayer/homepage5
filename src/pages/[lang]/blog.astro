@@ -9,9 +9,9 @@ import { fetchEntries } from "../../lib/feed";
 // 記事一覧を新しい投稿に追従させるため、リクエスト時に描画する。
 export const prerender = false;
 
-// Workers Cache とブラウザで 5 分キャッシュし、その間はフィードを取りに行かない。
+// Workers Cache とブラウザで 1 時間キャッシュし、その間はフィードを取りに行かない。
 // 期間は public/_headers の静的ページと揃える。
-const cacheControl = "public, max-age=300";
+const cacheControl = "public, max-age=3600";
 
 // getStaticPaths が使われないので、/fr/blog のような URL もここに来る。
 // ja に寄せると存在しない URL が 200 で増えるため 404 にする。
