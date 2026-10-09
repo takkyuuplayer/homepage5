@@ -9,9 +9,9 @@ import { fetchEntries } from "../../lib/feed";
 // 記事一覧を新しい投稿に追従させるため、リクエスト時に描画する。
 export const prerender = false;
 
-// Workers Cache で 5 分キャッシュし、その間はフィードを取りに行かない。
-// ブラウザにはキャッシュさせないため、Cloudflare が読んで外すヘッダーを使う。
-const edgeCacheControl = "max-age=300";
+// Workers Cache とブラウザで 5 分キャッシュし、その間はフィードを取りに行かない。
+// 期間は public/_headers の静的ページと揃える。
+const cacheControl = "public, max-age=300";
 
 // getStaticPaths が使われないので、/fr/blog のような URL もここに来る。
 // ja に寄せると存在しない URL が 200 で増えるため 404 にする。
@@ -19,12 +19,12 @@ const lang = Astro.params.lang;
 if (!isLang(lang)) {
 	return new Response(null, {
 		status: 404,
-		headers: { "Cloudflare-CDN-Cache-Control": edgeCacheControl },
+		headers: { "Cache-Control": cacheControl },
 	});
 }
 const t = useTranslations(lang);
 
-Astro.response.headers.set("Cloudflare-CDN-Cache-Control", edgeCacheControl);
+Astro.response.headers.set("Cache-Control", cacheControl);
 
 const posts = await fetchEntries();
 

@@ -1,0 +1,13 @@
+# /* にすると /_astro/* にも当たり、アダプタが入れる 1 年 immutable の指定が
+# 省かれる（同じヘッダーはカンマで連結もされる）。そのため、パスを分けて書く。
+/ja/*
+  Cache-Control: public, max-age=300
+
+/en/*
+  Cache-Control: public, max-age=300
+
+/favicon.svg
+  Cache-Control: public, max-age=300
+
+/software/*
+  Cache-Control: public, max-age=300
