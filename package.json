@@ -19,23 +19,23 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "^14.3.3",
+		"@astrojs/cloudflare": "^14.4.2",
 		"@tailwindcss/vite": "^4.3.3",
 		"astro": "^7.3.5",
 		"fast-xml-parser": "^5.11.2",
 		"tailwindcss": "^4.3.3",
-		"temml": "^0.13.5"
+		"temml": "^0.14.0"
 	},
 	"devDependencies": {
-		"@astrojs/check": "^0.9.10",
-		"@types/node": "^26.6.4",
-		"prettier": "^3.9.9",
-		"prettier-plugin-astro": "^1.1.0",
+		"@astrojs/check": "^0.9.12",
+		"@types/node": "^26.6.5",
+		"prettier": "^3.9.10",
+		"prettier-plugin-astro": "^1.1.2",
 		"prettier-plugin-tailwindcss": "^0.8.1",
-		"texsvg": "^4.0.2",
-		"typescript": "^6.0.3",
-		"vitest": "^5.0.3",
-		"wrangler": "^4.149.0"
+		"texsvg": "^4.0.3",
+		"typescript": "^7.0.2",
+		"vitest": "^5.0.5",
+		"wrangler": "^4.152.0"
 	},
 	"allowScripts": {
 		"esbuild": true,
